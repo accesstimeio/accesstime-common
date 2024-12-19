@@ -9,6 +9,8 @@ import {
     FavoritesResponseDto,
     ListDeploymentResponseDto,
     PortalProjectDto,
+    PortalProjectPackage,
+    PortalProjectSocial,
     ProjectResponseDto,
     RatesResponseDto,
     SUPPORTED_SORT_TYPE,
@@ -176,7 +178,169 @@ export class PortalApi extends AuthApi {
             throw new Error("[PortalApi - toggleFavorite] Auth is required!");
         }
 
-        const { data } = await this.client.get(`/portal/project/${chainId}/${id}/toggle-favorite`, {
+        const { data } = await this.client.post(`/portal/project/${chainId}/${id}/toggle-favorite`, {
+            headers: {
+                "X-ACCESSTIME-AUTH-MESSAGE": this.authMessage,
+                "X-ACCESSTIME-AUTH-SIGNATURE": this.authSignature,
+            }
+        });
+        return data;
+    };
+
+    public static async updateProjectAvatar(
+        chainId: number,
+        id: number,
+        formData: FormData
+    ): Promise<Hash> {
+        if (!this.authMessage || !this.authSignature) {
+            throw new Error("[PortalApi - updateProjectAvatar] Auth is required!");
+        }
+
+        if (!formData.has("file")) {
+            throw new Error("[PortalApi - updateProjectAvatar] File is not attached!");
+        }
+
+        const { data } = await this.client.post(`/portal/creator/update-project-avatar/${chainId}/${id}`, formData, {
+            headers: {
+                "X-ACCESSTIME-AUTH-MESSAGE": this.authMessage,
+                "X-ACCESSTIME-AUTH-SIGNATURE": this.authSignature,
+            }
+        });
+        return data;
+    };
+
+    public static async updateProjectSocials(
+        chainId: number,
+        id: number,
+        socials: PortalProjectSocial[]
+    ): Promise<boolean> {
+        if (!this.authMessage || !this.authSignature) {
+            throw new Error("[PortalApi - updateProjectSocials] Auth is required!");
+        }
+
+        if (socials.length == 0) {
+            throw new Error("[PortalApi - updateProjectSocials] Payload is empty!");
+        }
+
+        const { data } = await this.client.post(`/portal/creator/update-project-socials/${chainId}/${id}`, {
+            payload: socials
+        }, {
+            headers: {
+                "X-ACCESSTIME-AUTH-MESSAGE": this.authMessage,
+                "X-ACCESSTIME-AUTH-SIGNATURE": this.authSignature,
+            }
+        });
+        return data;
+    };
+
+    public static async updateProjectCategories(
+        chainId: number,
+        id: number,
+        categories: number[]
+    ): Promise<boolean> {
+        if (!this.authMessage || !this.authSignature) {
+            throw new Error("[PortalApi - updateProjectCategories] Auth is required!");
+        }
+
+        if (categories.length == 0) {
+            throw new Error("[PortalApi - updateProjectCategories] Payload is empty!");
+        }
+
+        const { data } = await this.client.post(`/portal/creator/update-project-categories/${chainId}/${id}`, {
+            payload: categories
+        }, {
+            headers: {
+                "X-ACCESSTIME-AUTH-MESSAGE": this.authMessage,
+                "X-ACCESSTIME-AUTH-SIGNATURE": this.authSignature,
+            }
+        });
+        return data;
+    };
+
+    public static async updateProjectContent(
+        chainId: number,
+        id: number,
+        formData: FormData
+    ): Promise<Hash> {
+        if (!this.authMessage || !this.authSignature) {
+            throw new Error("[PortalApi - updateProjectContent] Auth is required!");
+        }
+
+        if (!formData.has("file")) {
+            throw new Error("[PortalApi - updateProjectContent] File is not attached!");
+        }
+
+        const { data } = await this.client.post(`/portal/creator/update-project-content/${chainId}/${id}`, formData, {
+            headers: {
+                "X-ACCESSTIME-AUTH-MESSAGE": this.authMessage,
+                "X-ACCESSTIME-AUTH-SIGNATURE": this.authSignature,
+            }
+        });
+        return data;
+    };
+
+    public static async updateProjectPackages(
+        chainId: number,
+        id: number,
+        packages: Omit<PortalProjectPackage, "backgroundUrl" | "contentUrl">[]
+    ): Promise<boolean> {
+        if (!this.authMessage || !this.authSignature) {
+            throw new Error("[PortalApi - updateProjectPackages] Auth is required!");
+        }
+
+        if (packages.length == 0) {
+            throw new Error("[PortalApi - updateProjectPackages] Payload is empty!");
+        }
+
+        const { data } = await this.client.post(`/portal/creator/update-project-packages/${chainId}/${id}`, {
+            payload: packages
+        }, {
+            headers: {
+                "X-ACCESSTIME-AUTH-MESSAGE": this.authMessage,
+                "X-ACCESSTIME-AUTH-SIGNATURE": this.authSignature,
+            }
+        });
+        return data;
+    };
+
+    public static async updateProjectPackageImage(
+        chainId: number,
+        id: number,
+        packageId: number,
+        formData: FormData
+    ): Promise<Hash> {
+        if (!this.authMessage || !this.authSignature) {
+            throw new Error("[PortalApi - updateProjectPackageImage] Auth is required!");
+        }
+
+        if (!formData.has("file")) {
+            throw new Error("[PortalApi - updateProjectPackageImage] File is not attached!");
+        }
+
+        const { data } = await this.client.post(`/portal/creator/update-project-package-image/${chainId}/${id}/${packageId}`, formData, {
+            headers: {
+                "X-ACCESSTIME-AUTH-MESSAGE": this.authMessage,
+                "X-ACCESSTIME-AUTH-SIGNATURE": this.authSignature,
+            }
+        });
+        return data;
+    };
+
+    public static async updateProjectPackageContent(
+        chainId: number,
+        id: number,
+        packageId: number,
+        formData: FormData
+    ): Promise<Hash> {
+        if (!this.authMessage || !this.authSignature) {
+            throw new Error("[PortalApi - updateProjectPackageContent] Auth is required!");
+        }
+
+        if (!formData.has("file")) {
+            throw new Error("[PortalApi - updateProjectPackageContent] File is not attached!");
+        }
+
+        const { data } = await this.client.post(`/portal/creator/update-project-package-content/${chainId}/${id}/${packageId}`, formData, {
             headers: {
                 "X-ACCESSTIME-AUTH-MESSAGE": this.authMessage,
                 "X-ACCESSTIME-AUTH-SIGNATURE": this.authSignature,
