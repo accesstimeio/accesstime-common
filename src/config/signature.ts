@@ -1,4 +1,5 @@
 import { ParseAbiParameters, parseAbiParameters, TypedData, TypedDataDomain } from "viem";
+
 import { Api } from "./api";
 
 export class AuthSignature {

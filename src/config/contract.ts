@@ -1,4 +1,5 @@
 import { Address, parseAbi, zeroAddress } from "viem";
+
 import { Abis } from "../types";
 
 export class Contract {

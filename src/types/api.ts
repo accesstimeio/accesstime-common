@@ -29,3 +29,43 @@ export type RatesResponseDto = {
 	id: Address;
 	rate: string;
 };
+
+export type PortalProjectSocial = {
+    type: number;
+    url: string;
+}
+
+export type PortalProjectPackage = {
+    id: number;
+    title: string;
+    backgroundUrl: string;
+    contentUrl: string;
+}
+
+export interface PortalProjectCard {
+    id: Address;
+    avatarUrl: string | null;
+    votePoint: number;
+    voteParticipantCount: number;
+    isFavorited: boolean;
+}
+
+export interface PortalProjectDto extends Omit<PortalProjectCard, "id"> {
+    socials: PortalProjectSocial[];
+    categories: number[];
+    contentUrl: string | null;
+    paymentMethods: Address[];
+    packages: PortalProjectPackage[];
+}
+
+export interface ExploreResponseDto {
+    countProjects: number;
+    maxPage: number;
+    projects: PortalProjectCard[];
+}
+
+export interface FavoritesResponseDto extends ExploreResponseDto {}
+
+export type ToggleFavoriteResponseDto = {
+    isFavoritedNow: boolean | null;
+};

@@ -1,4 +1,5 @@
 import { parseEther, zeroAddress } from "viem";
+
 import { DashboardDefaults, DashboardModules } from "../types";
 
 export class Dashboard {
