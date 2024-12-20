@@ -1,11 +1,9 @@
 import { ParseAbiParameters, parseAbiParameters, TypedData, TypedDataDomain } from "viem";
 
-import { Api } from "./api";
-
 export class AuthSignature {
     public static domain: TypedDataDomain = {
         name: "AccessTime API",
-        version: Api.version
+        version: "0.1.0"
     };
     public static types: TypedData = {
         Auth: [

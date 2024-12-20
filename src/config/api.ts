@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosInstance } from "axios";
 import { Address, Hash, verifyTypedData } from "viem";
 
 import { AuthSignature } from "./signature";
@@ -20,13 +20,29 @@ import {
 export class Api {
     public static url: string = "https://api.accesstime.io";
     public static version: string = "0.1.0";
+
+    public static client: AxiosInstance = axios.create({
+        baseURL: this.url
+    });
+
+    public static updateApiUrl(newUrl: string) {
+        this.url = newUrl;
+
+        this.client = axios.create({
+            baseURL: newUrl
+        });
+    }
+
+    public static resetApiUrl() {
+        this.url = "https://api.accesstime.io";
+
+        this.client = axios.create({
+            baseURL: "https://api.accesstime.io"
+        });
+    }
 }
 
-export class DashboardApi {
-    public static client = axios.create({
-        baseURL: Api.url,
-    })
-
+export class DashboardApi extends Api {
     public static async lastDeployments(chainId: number, address: Address): Promise<DeploymentDto[]> {
         const { data } = await this.client.get(`/dashboard/deployment/last/${chainId}/${address}`);
         return data;
@@ -52,7 +68,7 @@ export class DashboardApi {
     };
 }
 
-export class AuthApi {
+export class AuthApi extends Api {
     public static authMessage: Hash | undefined;
     public static authSignature: Hash | undefined;
 
@@ -98,10 +114,6 @@ export class AuthApi {
 }
 
 export class PortalApi extends AuthApi {
-    public static client = axios.create({
-        baseURL: Api.url,
-    })
-
     public static async featureds(): Promise<any> { // to-do
         const { data } = await this.client.get(`/portal/featureds`);
         return data;
