@@ -1,5 +1,5 @@
 import axios, { AxiosInstance } from "axios";
-import { Address, Hash, verifyTypedData } from "viem";
+import { Address, Hash } from "viem";
 
 import { AuthSignature } from "./signature";
 
@@ -68,52 +68,7 @@ export class DashboardApi extends Api {
     };
 }
 
-export class AuthApi extends Api {
-    public static authMessage: Hash | undefined;
-    public static authSignature: Hash | undefined;
-
-    public static async verifyAuthConfig(
-        timestamp: number,
-        caller: Address,
-        authSignature: Hash
-    ): Promise<boolean> {
-        return await verifyTypedData({
-            address: caller,
-            domain: AuthSignature.domain,
-            types: AuthSignature.types,
-            primaryType: "Auth",
-            message: {
-                timestamp,
-                caller,
-                apiVersion: Api.version
-            },
-            signature: authSignature
-        });
-    }
-
-    public static async setAuthConfig(
-        timestamp: number,
-        caller: Address,
-        authMessage: Hash,
-        authSignature: Hash
-    ) {
-        const verifyResult = await this.verifyAuthConfig(timestamp, caller, authSignature);
-
-        if (!verifyResult) {
-            throw new Error("[AuthApi - setAuthConfig] Given auth config is invalid!");
-        }
-
-        this.authMessage = authMessage;
-        this.authSignature = authSignature;
-    }
-
-    public static resetAuthConfig() {
-        this.authMessage = undefined;
-        this.authSignature = undefined;
-    }
-}
-
-export class PortalApi extends AuthApi {
+export class PortalApi extends AuthSignature {
     public static async featureds(): Promise<any> { // to-do
         const { data } = await this.client.get(`/portal/featureds`);
         return data;
