@@ -1,17 +1,21 @@
 import axios, { AxiosInstance } from "axios";
-import { Address, Hash, TypedDataDomain, verifyTypedData } from "viem";
+import { Address, Hash, isAddress, TypedDataDomain, verifyTypedData } from "viem";
+
+import { Portal } from "./portal";
 
 import {
     DeploymentDto,
     ExploreResponseDto,
     FavoritesResponseDto,
     ListDeploymentResponseDto,
+    PortalCategory,
     PortalProjectDto,
     PortalProjectPackage,
     PortalProjectSocial,
     ProjectResponseDto,
     RatesResponseDto,
     SUPPORTED_SORT_TYPE,
+    SUPPORTED_SORT_TYPES,
     ToggleFavoriteResponseDto
 } from "../types";
 
@@ -137,14 +141,34 @@ export class PortalApi extends AuthSignature {
     public static async explore(
         chainId: number,
         page?: number,
-        sort?: SUPPORTED_SORT_TYPE
+        sort?: SUPPORTED_SORT_TYPE,
+        categories?: PortalCategory[],
+        paymentMethods?: Address[]
     ): Promise<ExploreResponseDto> {
         const query = new URLSearchParams();
         if (page) {
+            if (isNaN(Number(page))) throw new Error("Invalid page query!");
+
             query.append("page", page.toString());
         }
         if (sort) {
+            if (!SUPPORTED_SORT_TYPES.includes(sort)) throw new Error("Invalid sort query!");
+
             query.append("sort", sort.toString());
+        }
+        if (categories) {
+            categories.map((category) => {
+                if (!Portal.categories.includes(category)) throw new Error("Invalid category query!");
+            });
+
+            query.append("categories", categories.toString());
+        }
+        if (paymentMethods) {
+            paymentMethods.map((paymentMethod) => {
+                if (!isAddress(paymentMethod)) throw new Error("Invalid paymentMethod query!");
+            });
+
+            query.append("paymentMethods", paymentMethods.toString());
         }
 
         const { data } = await this.client.get(
@@ -165,6 +189,8 @@ export class PortalApi extends AuthSignature {
     ): Promise<FavoritesResponseDto> {
         const query = new URLSearchParams();
         if (page) {
+            if (isNaN(Number(page))) throw new Error("Invalid page query!");
+
             query.append("page", page.toString());
         }
 
@@ -263,7 +289,7 @@ export class PortalApi extends AuthSignature {
     public static async updateProjectCategories(
         chainId: number,
         id: number,
-        categories: number[]
+        categories: PortalCategory[]
     ): Promise<boolean> {
         if (!this.authMessage || !this.authSignature) {
             throw new Error("[PortalApi - updateProjectCategories] Auth is required!");
