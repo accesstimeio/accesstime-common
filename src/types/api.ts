@@ -48,11 +48,11 @@ export interface PortalProjectCard {
     votePoint: number;
     voteParticipantCount: number;
     isFavorited: boolean;
+    categories: number[];
 }
 
 export interface PortalProjectDto extends Omit<PortalProjectCard, "id"> {
     socials: PortalProjectSocial[];
-    categories: number[];
     contentUrl: string | null;
     paymentMethods: Address[];
     packages: PortalProjectPackage[];
