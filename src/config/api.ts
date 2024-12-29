@@ -141,7 +141,6 @@ export class PortalApi extends AuthSignature {
         chainId: number,
         page?: number,
         sort?: SUPPORTED_SORT_TYPE,
-        categories?: PortalCategory[],
         paymentMethods?: Address[]
     ): Promise<ExploreResponseDto> {
         const query = new URLSearchParams();
@@ -155,19 +154,12 @@ export class PortalApi extends AuthSignature {
 
             query.append("sort", sort.toString());
         }
-        if (categories) {
-            categories.map((category) => {
-                if (!Portal.categories.includes(category)) throw new Error("Invalid category query!");
-            });
-
-            query.append("categories", categories.toString());
-        }
-        if (paymentMethods) {
+        if (paymentMethods && Array.isArray(paymentMethods) && paymentMethods.length > 0) {
             paymentMethods.map((paymentMethod) => {
                 if (!isAddress(paymentMethod)) throw new Error("Invalid paymentMethod query!");
             });
 
-            query.append("paymentMethods", paymentMethods.toString());
+            query.append("paymentMethods", paymentMethods.join(","));
         }
 
         const { data } = await this.client.get(
