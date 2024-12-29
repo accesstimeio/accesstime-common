@@ -15,7 +15,6 @@ import {
     ProjectResponseDto,
     RatesResponseDto,
     SUPPORTED_SORT_TYPE,
-    SUPPORTED_SORT_TYPES,
     ToggleFavoriteResponseDto
 } from "../types";
 
@@ -152,7 +151,7 @@ export class PortalApi extends AuthSignature {
             query.append("page", page.toString());
         }
         if (sort) {
-            if (!SUPPORTED_SORT_TYPES.includes(sort)) throw new Error("Invalid sort query!");
+            if (!Portal.sortTypes.includes(sort)) throw new Error("Invalid sort query!");
 
             query.append("sort", sort.toString());
         }

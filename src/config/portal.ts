@@ -1,4 +1,11 @@
-import { PortalCategory, PortalSocialType, SUPPORTED_SORT_TYPE, UploadMaxSizes } from "../types";
+import {
+    PortalCategory,
+    PortalSocialType,
+    SUPPORTED_CHAIN,
+    SUPPORTED_PAYMENT_METHOD,
+    SUPPORTED_SORT_TYPE,
+    UploadMaxSizes
+} from "../types";
 
 export class Portal {
     public static defaultSortType: SUPPORTED_SORT_TYPE = "weekly_popular";
@@ -28,6 +35,32 @@ export class Portal {
         [PortalSocialType.Telegram]: /^https?:\/\/(www\.)?t\.me\/[a-zA-Z0-9_]+\/?$/,
         [PortalSocialType.Facebook]: /^https?:\/\/(www\.)?facebook\.com\/[a-zA-Z0-9.]+\/?$/,
         [PortalSocialType.Medium]: /^https?:\/\/(www\.)?medium\.com\/@[a-zA-Z0-9_.-]+\/?$/
+    };
+
+    public static supportedPaymentMethods: {
+        [key in SUPPORTED_CHAIN]: SUPPORTED_PAYMENT_METHOD[]
+    } = {
+        8453: [],
+        84532: [
+            {
+                name: "Ethereum",
+                symbol: "ETH",
+                decimal: 18,
+                address: "0x0000000000000000000000000000000000000000"
+            },
+            {
+                name: "Test Token",
+                symbol: "TKN",
+                decimal: 18,
+                address: "0xf539b2fd80ddeacd82eb4ea2b1321c2b38afcb9a"
+            },
+            {
+                name: "Test Token 2",
+                symbol: "TKN 2",
+                decimal: 18,
+                address: "0x54580d3b0522429dba4bc18d6dd4f7d8c6900c46"
+            },
+        ]
     };
 
     public static socialUrlVerify(socialType: PortalSocialType, url: string) {

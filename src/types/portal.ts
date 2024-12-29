@@ -1,5 +1,6 @@
+import { Address } from "viem";
+
 export type SUPPORTED_SORT_TYPE = "weekly_popular" | "top_rated" | "newest";
-export const SUPPORTED_SORT_TYPES = ["weekly_popular", "top_rated", "newest"];
 
 export interface UploadMaxSizes {
     avatar: number;
@@ -34,4 +35,11 @@ export enum PortalSocialType {
     Telegram = 10,
     Facebook = 11,
     Medium = 12
+}
+
+export type SUPPORTED_PAYMENT_METHOD = {
+    name: string;
+    symbol: string;
+    decimal: number;
+    address: Address;
 }

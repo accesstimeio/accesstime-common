@@ -1,13 +1,15 @@
 import { Chain } from "../config";
 
-export const isSupportedChainId = (chainId: number) => Chain.ids.includes(chainId);
+import { SUPPORTED_CHAIN } from "../types";
 
-export const getChainName = (chainId: number) =>
+export const isSupportedChainId = (chainId: number) => Chain.ids.includes(chainId as SUPPORTED_CHAIN);
+
+export const getChainName = (chainId: SUPPORTED_CHAIN) =>
     Chain.ids.indexOf(chainId) != -1 ?
         Chain.names[Chain.ids.indexOf(chainId)]
         : "-";
 
-export const getChainCurrencyName = (chainId: number) =>
+export const getChainCurrencyName = (chainId: SUPPORTED_CHAIN) =>
     Chain.ids.indexOf(chainId) != -1 ?
         Chain.currencyNames[Chain.ids.indexOf(chainId)]
         : "-";
