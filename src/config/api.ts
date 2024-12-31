@@ -222,7 +222,7 @@ export class PortalApi extends AuthSignature {
             throw new Error("[PortalApi - toggleFavorite] Auth is required!");
         }
 
-        const { data } = await this.client.post(`/portal/project/${chainId}/${id}/toggle-favorite`, {
+        const { data } = await this.client.post(`/portal/project/${chainId}/${id}/toggle-favorite`, undefined, {
             headers: {
                 "X-ACCESSTIME-AUTH-MESSAGE": this.authMessage,
                 "X-ACCESSTIME-AUTH-SIGNATURE": this.authSignature,
