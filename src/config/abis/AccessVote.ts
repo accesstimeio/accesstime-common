@@ -58,9 +58,9 @@ export const AccessVoteABI = [
                 internalType: "address"
             },
             {
-                name: "vote",
-                type: "bool",
-                internalType: "bool"
+                name: "star",
+                type: "uint256",
+                internalType: "uint256"
             }
         ],
         outputs: [],
@@ -161,14 +161,9 @@ export const AccessVoteABI = [
         ],
         outputs: [
             {
-                name: "vote",
-                type: "bool",
-                internalType: "bool"
-            },
-            {
-                name: "voted",
-                type: "bool",
-                internalType: "bool"
+                name: "star",
+                type: "uint256",
+                internalType: "uint256"
             }
         ],
         stateMutability: "view"
@@ -260,10 +255,10 @@ export const AccessVoteABI = [
                 internalType: "address"
             },
             {
-                name: "vote",
-                type: "bool",
+                name: "star",
+                type: "uint256",
                 indexed: false,
-                internalType: "bool"
+                internalType: "uint256"
             }
         ],
         anonymous: false
@@ -286,6 +281,11 @@ export const AccessVoteABI = [
     {
         type: "error",
         name: "InvalidAccessTime",
+        inputs: []
+    },
+    {
+        type: "error",
+        name: "InvalidStar",
         inputs: []
     },
     {
