@@ -66,6 +66,13 @@ export interface ExploreResponseDto {
 
 export interface FavoritesResponseDto extends ExploreResponseDto {}
 
-export type ToggleFavoriteResponseDto = {
+export type ProjectToggleFavoriteResponseDto = {
     isFavoritedNow: boolean | null;
+};
+
+export type ProjectVotesResponseDto = {
+    previousVotePoint: number;
+    previousVoteParticipantCount: number;
+    votePoint: number;
+    voteParticipantCount: number;
 };

@@ -15,7 +15,8 @@ import {
     ProjectResponseDto,
     RatesResponseDto,
     SUPPORTED_SORT_TYPE,
-    ToggleFavoriteResponseDto
+    ProjectToggleFavoriteResponseDto,
+    ProjectVotesResponseDto
 } from "../types";
 
 export class Api {
@@ -217,7 +218,7 @@ export class PortalApi extends AuthSignature {
     public static async toggleFavorite(
         chainId: number,
         id: number
-    ): Promise<ToggleFavoriteResponseDto> {
+    ): Promise<ProjectToggleFavoriteResponseDto> {
         if (!this.authMessage || !this.authSignature) {
             throw new Error("[PortalApi - toggleFavorite] Auth is required!");
         }
@@ -228,6 +229,14 @@ export class PortalApi extends AuthSignature {
                 "X-ACCESSTIME-AUTH-SIGNATURE": this.authSignature,
             }
         });
+        return data;
+    };
+
+    public static async projectVotes(
+        chainId: number,
+        id: number
+    ): Promise<ProjectVotesResponseDto> {
+        const { data } = await this.client.get(`/portal/project/${chainId}/${id}/votes`);
         return data;
     };
 
