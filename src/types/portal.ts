@@ -22,6 +22,7 @@ export enum PortalCategory {
 }
 
 export enum PortalSocialType {
+    None = -1,
     GitHub = 0,
     LinkedIn = 1,
     Twitter = 2,

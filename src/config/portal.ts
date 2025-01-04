@@ -22,6 +22,7 @@ export class Portal {
     };
 
     public static socialTypePatterns: Record<PortalSocialType, RegExp> = {
+        [PortalSocialType.None]: /^[a-zA-Z0-9\s]{0,0}$/,
         [PortalSocialType.GitHub]: /^https?:\/\/(www\.)?github\.com\/[a-zA-Z0-9-_.]+\/?$/,
         [PortalSocialType.LinkedIn]: /^https?:\/\/(www\.)?linkedin\.com\/in\/[a-zA-Z0-9-_.]+\/?$/,
         [PortalSocialType.Twitter]: /^https?:\/\/(www\.)?twitter\.com\/[a-zA-Z0-9_]+\/?$/,
@@ -63,8 +64,8 @@ export class Portal {
         ]
     };
 
-    public static socialUrlVerify(socialType: PortalSocialType, url: string) {
-        if (!this.socialTypes.includes(socialType)) throw new Error("Invalid social type!");
+    public static socialUrlVerify(socialType: PortalSocialType, url: string, throwError: boolean) {
+        if (throwError && !this.socialTypes.includes(socialType)) throw new Error("Invalid social type!");
 
         return this.socialTypePatterns[socialType].test(url);
     }
