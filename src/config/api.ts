@@ -271,8 +271,8 @@ export class PortalApi extends AuthSignature {
             throw new Error("[PortalApi - updateProjectSocials] Auth is required!");
         }
 
-        if (socials.length == 0) {
-            throw new Error("[PortalApi - updateProjectSocials] Payload is empty!");
+        if (!Array.isArray(socials)) {
+            throw new Error("[PortalApi - updateProjectSocials] Payload is not acceptable!");
         }
 
         const { data } = await this.client.post(`/portal/creator/update-project-socials/${chainId}/${id}`, {
