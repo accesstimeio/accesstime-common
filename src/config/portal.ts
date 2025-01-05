@@ -64,9 +64,13 @@ export class Portal {
         ]
     };
 
-    public static socialUrlVerify(socialType: PortalSocialType, url: string, throwError: boolean) {
-        if (throwError && !this.socialTypes.includes(socialType)) throw new Error("Invalid social type!");
+    public static socialUrlVerify(socialType: PortalSocialType, url: string, throwError?: boolean) {
+        if (throwError == true && !this.socialTypes.includes(socialType)) throw new Error("Invalid social type!");
 
         return this.socialTypePatterns[socialType].test(url);
+    }
+
+    public static packageNameVerify(value: string) {
+        return /^[a-zA-Z0-9\s]{1,32}$/.test(value);
     }
 }

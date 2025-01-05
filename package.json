@@ -1,7 +1,7 @@
 {
     "name": "@accesstimeio/accesstime-common",
     "license": "MIT",
-    "version": "1.1.7",
+    "version": "1.1.8",
     "description": "AccessTime common shared configurations",
     "author": {
         "name": "AccessTime",

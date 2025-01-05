@@ -59,3 +59,30 @@ export const getSocialTypeText = (type: PortalSocialType) => {
             return "not-supported"
     }
 }
+
+export const extractDomain = (input: string): string | null => {
+    try {
+        const normalizedInput = input.trim();
+        const hasProtocol = normalizedInput.startsWith('http://') || normalizedInput.startsWith('https://');
+    
+        const urlToParse = hasProtocol ? normalizedInput : `https://${normalizedInput}`;
+    
+        if (!/^https?:\/\/[^\s/$.?#].[^\s]*$/i.test(urlToParse)) {
+            return null;
+        }
+    
+        const parsedUrl = new URL(urlToParse);
+        const hostname = parsedUrl.hostname;
+    
+        const parts = hostname.split('.');
+    
+        if (parts.length < 2 || !/^[a-zA-Z]{2,}$/.test(parts[parts.length - 1])) {
+            return null;
+        }
+    
+        const extractedParts = parts.slice(-3);
+        return extractedParts.join('.');
+    } catch (_err) {
+        return null;
+    }
+}
