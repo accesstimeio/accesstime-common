@@ -48,6 +48,8 @@ export interface PortalProjectCard {
     votePoint: number;
     voteParticipantCount: number;
     isFavorited: boolean;
+    domainVerify: boolean;
+    portalVerify: boolean;
     categories: number[];
 }
 
@@ -76,3 +78,17 @@ export type ProjectVotesResponseDto = {
     votePoint: number;
     voteParticipantCount: number;
 };
+
+export interface FeaturedsResponseDto extends Omit<PortalProjectCard, "id"|"votePoint"|"voteParticipantCount"|"isFavorited"|"categories"> {
+    id: string;
+    chainId: number;
+    address: Address;
+}
+
+export interface PortalLinkCheckResponseDto {
+    allowed: boolean;
+}
+
+export interface PortalLinkUpdateStatusResponseDto {
+    allowed: boolean | null;
+}

@@ -1,5 +1,5 @@
 import axios, { AxiosInstance } from "axios";
-import { Address, Hash, isAddress, TypedDataDomain, verifyTypedData } from "viem";
+import { Address, encodeAbiParameters, Hash, isAddress, TypedDataDomain, verifyTypedData } from "viem";
 
 import { Portal } from "./portal";
 
@@ -16,7 +16,10 @@ import {
     RatesResponseDto,
     SUPPORTED_SORT_TYPE,
     ProjectToggleFavoriteResponseDto,
-    ProjectVotesResponseDto
+    ProjectVotesResponseDto,
+    FeaturedsResponseDto,
+    PortalLinkCheckResponseDto,
+    PortalLinkUpdateStatusResponseDto
 } from "../types";
 
 export class Api {
@@ -133,7 +136,7 @@ export class AuthSignature extends Api {
 }
 
 export class PortalApi extends AuthSignature {
-    public static async featureds(): Promise<any> { // to-do
+    public static async featureds(): Promise<FeaturedsResponseDto[]> {
         const { data } = await this.client.get(`/portal/featureds`);
         return data;
     };
@@ -401,4 +404,64 @@ export class PortalApi extends AuthSignature {
         });
         return data;
     };
+
+    public static async toggleFeatured(
+        chainId: number,
+        id: number
+    ): Promise<boolean> {
+        if (!this.authMessage || !this.authSignature) {
+            throw new Error("[PortalApi - toggleFeatured] Auth is required!");
+        }
+
+        const { data } = await this.client.post(`/portal/project/${chainId}/${id}/toggle-featured`, undefined, {
+            headers: {
+                "X-ACCESSTIME-AUTH-MESSAGE": this.authMessage,
+                "X-ACCESSTIME-AUTH-SIGNATURE": this.authSignature,
+            }
+        });
+        return data;
+    }
+
+    public static async togglePortalVerify(
+        chainId: number,
+        id: number
+    ): Promise<boolean> {
+        if (!this.authMessage || !this.authSignature) {
+            throw new Error("[PortalApi - togglePortalVerify] Auth is required!");
+        }
+
+        const { data } = await this.client.post(`/portal/project/${chainId}/${id}/toggle-portal-verify`, undefined, {
+            headers: {
+                "X-ACCESSTIME-AUTH-MESSAGE": this.authMessage,
+                "X-ACCESSTIME-AUTH-SIGNATURE": this.authSignature,
+            }
+        });
+        return data;
+    }
+
+    public static async linkCheck(link: string): Promise<PortalLinkCheckResponseDto> {
+        const hashedLink = encodeAbiParameters([{ type: "string" }], [link.toString()]);
+
+        const { data } = await this.client.get(`/portal/link/check/${hashedLink}`);
+        return data;
+    };
+
+    public static async linkUpdateStatus(
+        link: string,
+        status: boolean
+    ): Promise<PortalLinkUpdateStatusResponseDto> {
+        if (!this.authMessage || !this.authSignature) {
+            throw new Error("[PortalApi - linkUpdateStatus] Auth is required!");
+        }
+
+        const hashedLink = encodeAbiParameters([{ type: "string" }], [link.toString()]);
+
+        const { data } = await this.client.post(`/portal/link/check/${hashedLink}`, { allowed: status }, {
+            headers: {
+                "X-ACCESSTIME-AUTH-MESSAGE": this.authMessage,
+                "X-ACCESSTIME-AUTH-SIGNATURE": this.authSignature,
+            }
+        });
+        return data;
+    }
 }
