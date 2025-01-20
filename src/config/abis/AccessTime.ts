@@ -18,12 +18,12 @@ export const AccessTimeABI = [
                 internalType: "uint256"
             },
             {
-                name: "includeExtraTime",
+                name: "activateExtraTime",
                 type: "bool",
                 internalType: "bool"
             },
             {
-                name: "includePackageModule",
+                name: "activatePackageModule",
                 type: "bool",
                 internalType: "bool"
             }
@@ -240,6 +240,32 @@ export const AccessTimeABI = [
     },
     {
         type: "function",
+        name: "toggleExtraTimeModule",
+        inputs: [],
+        outputs: [
+            {
+                name: "newStatus",
+                type: "bool",
+                internalType: "bool"
+            }
+        ],
+        stateMutability: "nonpayable"
+    },
+    {
+        type: "function",
+        name: "togglePackageModule",
+        inputs: [],
+        outputs: [
+            {
+                name: "newStatus",
+                type: "bool",
+                internalType: "bool"
+            }
+        ],
+        stateMutability: "nonpayable"
+    },
+    {
+        type: "function",
         name: "tokenRates",
         inputs: [
             {
@@ -402,6 +428,25 @@ export const AccessTimeABI = [
                 type: "uint256",
                 indexed: true,
                 internalType: "uint256"
+            }
+        ],
+        anonymous: false
+    },
+    {
+        type: "event",
+        name: "ModuleStatusUpdated",
+        inputs: [
+            {
+                name: "module",
+                type: "string",
+                indexed: true,
+                internalType: "string"
+            },
+            {
+                name: "newStatus",
+                type: "bool",
+                indexed: true,
+                internalType: "bool"
             }
         ],
         anonymous: false
@@ -610,6 +655,11 @@ export const AccessTimeABI = [
                 internalType: "address"
             }
         ]
+    },
+    {
+        type: "error",
+        name: "OnlyDeployerAuthorized",
+        inputs: []
     },
     {
         type: "error",

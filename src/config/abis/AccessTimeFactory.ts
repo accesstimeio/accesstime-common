@@ -55,12 +55,12 @@ export const AccessTimeFactoryABI = [
                 internalType: "address"
             },
             {
-                name: "includeExtraTime",
+                name: "activateExtraTime",
                 type: "bool",
                 internalType: "bool"
             },
             {
-                name: "includePackageModule",
+                name: "activatePackageModule",
                 type: "bool",
                 internalType: "bool"
             },
@@ -101,12 +101,12 @@ export const AccessTimeFactoryABI = [
                 internalType: "uint256"
             },
             {
-                name: "includedExtraTime",
+                name: "activeExtraTime",
                 type: "bool",
                 internalType: "bool"
             },
             {
-                name: "includedPackageModule",
+                name: "activePackageModule",
                 type: "bool",
                 internalType: "bool"
             },
@@ -124,6 +124,25 @@ export const AccessTimeFactoryABI = [
                 name: "website",
                 type: "string",
                 internalType: "string"
+            }
+        ],
+        stateMutability: "view"
+    },
+    {
+        type: "function",
+        name: "fees",
+        inputs: [
+            {
+                name: "accessTime",
+                type: "address",
+                internalType: "contract AccessTime"
+            }
+        ],
+        outputs: [
+            {
+                name: "fee",
+                type: "uint256",
+                internalType: "uint256"
             }
         ],
         stateMutability: "view"
@@ -183,6 +202,32 @@ export const AccessTimeFactoryABI = [
     },
     {
         type: "function",
+        name: "toggleExtraTimeModule",
+        inputs: [
+            {
+                name: "deploymentId",
+                type: "uint256",
+                internalType: "uint256"
+            }
+        ],
+        outputs: [],
+        stateMutability: "nonpayable"
+    },
+    {
+        type: "function",
+        name: "togglePackageModule",
+        inputs: [
+            {
+                name: "deploymentId",
+                type: "uint256",
+                internalType: "uint256"
+            }
+        ],
+        outputs: [],
+        stateMutability: "nonpayable"
+    },
+    {
+        type: "function",
         name: "tokenRates",
         inputs: [
             {
@@ -222,6 +267,19 @@ export const AccessTimeFactoryABI = [
     },
     {
         type: "function",
+        name: "updateDefaultFee",
+        inputs: [
+            {
+                name: "percent",
+                type: "uint256",
+                internalType: "uint256"
+            }
+        ],
+        outputs: [],
+        stateMutability: "nonpayable"
+    },
+    {
+        type: "function",
         name: "updateDeploymentDetails",
         inputs: [
             {
@@ -242,6 +300,11 @@ export const AccessTimeFactoryABI = [
         type: "function",
         name: "updateFee",
         inputs: [
+            {
+                name: "accessTime",
+                type: "address",
+                internalType: "contract AccessTime"
+            },
             {
                 name: "percent",
                 type: "uint256",
@@ -305,6 +368,19 @@ export const AccessTimeFactoryABI = [
                 indexed: true,
                 internalType: "address"
             },
+            {
+                name: "contractAddress",
+                type: "address",
+                indexed: true,
+                internalType: "contract AccessTime"
+            }
+        ],
+        anonymous: false
+    },
+    {
+        type: "event",
+        name: "DeploymentDetailsUpdated",
+        inputs: [
             {
                 name: "contractAddress",
                 type: "address",
@@ -422,6 +498,11 @@ export const AccessTimeFactoryABI = [
                 internalType: "uint256"
             }
         ]
+    },
+    {
+        type: "error",
+        name: "InvalidFee",
+        inputs: []
     },
     {
         type: "error",
