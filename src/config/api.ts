@@ -49,26 +49,37 @@ export class Api {
 
 export class DashboardApi extends Api {
     public static async lastDeployments(chainId: number, address: Address): Promise<DeploymentDto[]> {
-        const { data } = await this.client.get(`/dashboard/deployment/last/${chainId}/${address}`);
+        const { data } = await this.client.get(`/v1/dashboard/deployment/last/${chainId}/${address}`);
         return data;
     };
-    
+
     public static async listDeployments(
         chainId: number,
         address: Address,
-        page: number
+        page: number,
+        pageCursor?: string
     ): Promise<ListDeploymentResponseDto> {
-        const { data } = await this.client.get(`/dashboard/deployment/list/${chainId}/${address}?page=${page}`);
+        const query = new URLSearchParams();
+        if (page) {
+            if (isNaN(Number(page))) throw new Error("Invalid page query!");
+
+            query.append("page", page.toString());
+        }
+        if (pageCursor) {
+            query.append("pageCursor", pageCursor.toString());
+        }
+
+        const { data } = await this.client.get(`/v1/dashboard/deployment/list/${chainId}/${address}` + (query.size > 0 ? `?${query.toString()}` : ""));
         return data;
     };
-    
+
     public static async rates(chainId: number): Promise<RatesResponseDto[]> {
-        const { data } = await this.client.get(`/dashboard/deployment/${chainId}/rates`);
+        const { data } = await this.client.get(`/v1/dashboard/deployment/${chainId}/rates`);
         return data;
     };
-    
+
     public static async project(chainId: number, id: number): Promise<ProjectResponseDto> {
-        const { data } = await this.client.get(`/dashboard/project/${chainId}/${id}`);
+        const { data } = await this.client.get(`/v1/dashboard/project/${chainId}/${id}`);
         return data;
     };
 }
@@ -137,7 +148,7 @@ export class AuthSignature extends Api {
 
 export class PortalApi extends AuthSignature {
     public static async featureds(): Promise<FeaturedsResponseDto[]> {
-        const { data } = await this.client.get(`/portal/featureds`);
+        const { data } = await this.client.get(`/v1/portal/featureds`);
         return data;
     };
 
@@ -145,7 +156,8 @@ export class PortalApi extends AuthSignature {
         chainId: number,
         page?: number,
         sort?: SUPPORTED_SORT_TYPE,
-        paymentMethods?: Address[]
+        paymentMethods?: Address[],
+        pageCursor?: string
     ): Promise<ExploreResponseDto> {
         const query = new URLSearchParams();
         if (page) {
@@ -165,9 +177,12 @@ export class PortalApi extends AuthSignature {
 
             query.append("paymentMethods", paymentMethods.join(","));
         }
+        if (pageCursor) {
+            query.append("pageCursor", pageCursor.toString());
+        }
 
         const { data } = await this.client.get(
-            `/portal/explore/${chainId}` + (query.size > 0 ? `?${query.toString()}` : ""),
+            `/v1/portal/explore/${chainId}` + (query.size > 0 ? `?${query.toString()}` : ""),
             {
                 headers: (this.authMessage && this.authSignature) ? {
                     "X-ACCESSTIME-AUTH-MESSAGE": this.authMessage,
@@ -194,7 +209,7 @@ export class PortalApi extends AuthSignature {
         }
 
         const { data } = await this.client.get(
-            `/portal/favorites/${chainId}` + (query.size > 0 ? `?${query.toString()}` : ""),
+            `/v1/portal/favorites/${chainId}` + (query.size > 0 ? `?${query.toString()}` : ""),
             {
                 headers: {
                     "X-ACCESSTIME-AUTH-MESSAGE": this.authMessage,
@@ -209,7 +224,7 @@ export class PortalApi extends AuthSignature {
         chainId: number,
         id: number
     ): Promise<PortalProjectDto> {
-        const { data } = await this.client.get(`/portal/project/${chainId}/${id}`, {
+        const { data } = await this.client.get(`/v1/portal/project/${chainId}/${id}`, {
             headers: (this.authMessage && this.authSignature) ? {
                 "X-ACCESSTIME-AUTH-MESSAGE": this.authMessage,
                 "X-ACCESSTIME-AUTH-SIGNATURE": this.authSignature,
@@ -226,7 +241,7 @@ export class PortalApi extends AuthSignature {
             throw new Error("[PortalApi - toggleFavorite] Auth is required!");
         }
 
-        const { data } = await this.client.post(`/portal/project/${chainId}/${id}/toggle-favorite`, undefined, {
+        const { data } = await this.client.post(`/v1/portal/project/${chainId}/${id}/toggle-favorite`, undefined, {
             headers: {
                 "X-ACCESSTIME-AUTH-MESSAGE": this.authMessage,
                 "X-ACCESSTIME-AUTH-SIGNATURE": this.authSignature,
@@ -239,7 +254,7 @@ export class PortalApi extends AuthSignature {
         chainId: number,
         id: number
     ): Promise<ProjectVotesResponseDto> {
-        const { data } = await this.client.get(`/portal/project/${chainId}/${id}/votes`);
+        const { data } = await this.client.get(`/v1/portal/project/${chainId}/${id}/votes`);
         return data;
     };
 
@@ -256,7 +271,7 @@ export class PortalApi extends AuthSignature {
             throw new Error("[PortalApi - updateProjectAvatar] File is not attached!");
         }
 
-        const { data } = await this.client.post(`/portal/creator/update-project-avatar/${chainId}/${id}`, formData, {
+        const { data } = await this.client.post(`/v1/portal/creator/update-project-avatar/${chainId}/${id}`, formData, {
             headers: {
                 "X-ACCESSTIME-AUTH-MESSAGE": this.authMessage,
                 "X-ACCESSTIME-AUTH-SIGNATURE": this.authSignature,
@@ -278,7 +293,7 @@ export class PortalApi extends AuthSignature {
             throw new Error("[PortalApi - updateProjectSocials] Payload is not acceptable!");
         }
 
-        const { data } = await this.client.post(`/portal/creator/update-project-socials/${chainId}/${id}`, {
+        const { data } = await this.client.post(`/v1/portal/creator/update-project-socials/${chainId}/${id}`, {
             payload: socials
         }, {
             headers: {
@@ -302,7 +317,7 @@ export class PortalApi extends AuthSignature {
             throw new Error("[PortalApi - updateProjectCategories] Payload is empty!");
         }
 
-        const { data } = await this.client.post(`/portal/creator/update-project-categories/${chainId}/${id}`, {
+        const { data } = await this.client.post(`/v1/portal/creator/update-project-categories/${chainId}/${id}`, {
             payload: categories
         }, {
             headers: {
@@ -326,7 +341,7 @@ export class PortalApi extends AuthSignature {
             throw new Error("[PortalApi - updateProjectContent] File is not attached!");
         }
 
-        const { data } = await this.client.post(`/portal/creator/update-project-content/${chainId}/${id}`, formData, {
+        const { data } = await this.client.post(`/v1/portal/creator/update-project-content/${chainId}/${id}`, formData, {
             headers: {
                 "X-ACCESSTIME-AUTH-MESSAGE": this.authMessage,
                 "X-ACCESSTIME-AUTH-SIGNATURE": this.authSignature,
@@ -348,7 +363,7 @@ export class PortalApi extends AuthSignature {
             throw new Error("[PortalApi - updateProjectPackages] Payload is empty!");
         }
 
-        const { data } = await this.client.post(`/portal/creator/update-project-packages/${chainId}/${id}`, {
+        const { data } = await this.client.post(`/v1/portal/creator/update-project-packages/${chainId}/${id}`, {
             payload: packages
         }, {
             headers: {
@@ -373,7 +388,7 @@ export class PortalApi extends AuthSignature {
             throw new Error("[PortalApi - updateProjectPackageImage] File is not attached!");
         }
 
-        const { data } = await this.client.post(`/portal/creator/update-project-package-image/${chainId}/${id}/${packageId}`, formData, {
+        const { data } = await this.client.post(`/v1/portal/creator/update-project-package-image/${chainId}/${id}/${packageId}`, formData, {
             headers: {
                 "X-ACCESSTIME-AUTH-MESSAGE": this.authMessage,
                 "X-ACCESSTIME-AUTH-SIGNATURE": this.authSignature,
@@ -396,7 +411,7 @@ export class PortalApi extends AuthSignature {
             throw new Error("[PortalApi - updateProjectPackageContent] File is not attached!");
         }
 
-        const { data } = await this.client.post(`/portal/creator/update-project-package-content/${chainId}/${id}/${packageId}`, formData, {
+        const { data } = await this.client.post(`/v1/portal/creator/update-project-package-content/${chainId}/${id}/${packageId}`, formData, {
             headers: {
                 "X-ACCESSTIME-AUTH-MESSAGE": this.authMessage,
                 "X-ACCESSTIME-AUTH-SIGNATURE": this.authSignature,
@@ -413,7 +428,7 @@ export class PortalApi extends AuthSignature {
             throw new Error("[PortalApi - toggleFeatured] Auth is required!");
         }
 
-        const { data } = await this.client.post(`/portal/project/${chainId}/${id}/toggle-featured`, undefined, {
+        const { data } = await this.client.post(`/v1/portal/project/${chainId}/${id}/toggle-featured`, undefined, {
             headers: {
                 "X-ACCESSTIME-AUTH-MESSAGE": this.authMessage,
                 "X-ACCESSTIME-AUTH-SIGNATURE": this.authSignature,
@@ -430,7 +445,7 @@ export class PortalApi extends AuthSignature {
             throw new Error("[PortalApi - togglePortalVerify] Auth is required!");
         }
 
-        const { data } = await this.client.post(`/portal/project/${chainId}/${id}/toggle-portal-verify`, undefined, {
+        const { data } = await this.client.post(`/v1/portal/project/${chainId}/${id}/toggle-portal-verify`, undefined, {
             headers: {
                 "X-ACCESSTIME-AUTH-MESSAGE": this.authMessage,
                 "X-ACCESSTIME-AUTH-SIGNATURE": this.authSignature,
@@ -442,7 +457,7 @@ export class PortalApi extends AuthSignature {
     public static async linkCheck(link: string): Promise<PortalLinkCheckResponseDto> {
         const hashedLink = encodeAbiParameters([{ type: "string" }], [link.toString()]);
 
-        const { data } = await this.client.get(`/portal/link/check/${hashedLink}`);
+        const { data } = await this.client.get(`/v1/portal/link/check/${hashedLink}`);
         return data;
     };
 
@@ -456,7 +471,7 @@ export class PortalApi extends AuthSignature {
 
         const hashedLink = encodeAbiParameters([{ type: "string" }], [link.toString()]);
 
-        const { data } = await this.client.post(`/portal/link/check/${hashedLink}`, { allowed: status }, {
+        const { data } = await this.client.post(`/v1/portal/link/check/${hashedLink}`, { allowed: status }, {
             headers: {
                 "X-ACCESSTIME-AUTH-MESSAGE": this.authMessage,
                 "X-ACCESSTIME-AUTH-SIGNATURE": this.authSignature,

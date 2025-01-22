@@ -1,33 +1,34 @@
 import { Address } from "viem";
 
 export type DeploymentDto = {
-	accessTimeId: string;
-	id: Address;
-	paused: boolean;
+    accessTimeId: string;
+    id: Address;
+    paused: boolean;
 };
 
 export type ListDeploymentResponseDto = {
-	page: number;
-	maxPage: number;
-	deployments: DeploymentDto[];
+    page: number;
+    maxPage: number;
+    deployments: DeploymentDto[];
+    pageCursor: string | null;
 };
 
 export type ProjectResponseDto = {
-	id: Address;
-	extraTimes: string[];
-	removedExtraTimes: string[];
-	nextOwner: Address;
-	owner: Address;
-	packages: string[];
-	removedPackages: string[];
-	paused: boolean;
-	paymentMethods: Address[];
-	prevOwner: Address;
+    id: Address;
+    extraTimes: string[];
+    removedExtraTimes: string[];
+    nextOwner: Address;
+    owner: Address;
+    packages: string[];
+    removedPackages: string[];
+    paused: boolean;
+    paymentMethods: Address[];
+    prevOwner: Address;
 };
 
 export type RatesResponseDto = {
-	id: Address;
-	rate: string;
+    id: Address;
+    rate: string;
 };
 
 export type PortalProjectSocial = {
@@ -64,9 +65,10 @@ export interface ExploreResponseDto {
     countProjects: number;
     maxPage: number;
     projects: PortalProjectCard[];
+    pageCursor: string | null;
 }
 
-export interface FavoritesResponseDto extends ExploreResponseDto {}
+export interface FavoritesResponseDto extends ExploreResponseDto { }
 
 export type ProjectToggleFavoriteResponseDto = {
     isFavoritedNow: boolean | null;
@@ -79,7 +81,7 @@ export type ProjectVotesResponseDto = {
     voteParticipantCount: number;
 };
 
-export interface FeaturedsResponseDto extends Omit<PortalProjectCard, "id"|"votePoint"|"voteParticipantCount"|"isFavorited"|"categories"> {
+export interface FeaturedsResponseDto extends Omit<PortalProjectCard, "id" | "votePoint" | "voteParticipantCount" | "isFavorited" | "categories"> {
     id: string;
     chainId: number;
     address: Address;
