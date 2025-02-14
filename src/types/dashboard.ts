@@ -40,6 +40,8 @@ export interface ProjectDetailProps {
     transferOwnership?: (cancel: boolean) => void;
     acceptOwnership?: () => void;
     withdrawPaymentMethod?: (data: TokenRate) => void;
+    packageModuleToggle?: () => void;
+    extraTimeModuleToggle?: () => void;
 }
 
 export type ModuleType = "extra" | "package";

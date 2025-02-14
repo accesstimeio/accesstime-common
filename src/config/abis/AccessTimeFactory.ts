@@ -6,6 +6,16 @@ export const AccessTimeFactoryABI = [
                 name: "ownerAddress",
                 type: "address",
                 internalType: "address"
+            },
+            {
+                name: "deployerAddress",
+                type: "address",
+                internalType: "address"
+            },
+            {
+                name: "feeWei",
+                type: "uint256",
+                internalType: "uint256"
             }
         ],
         stateMutability: "nonpayable"
@@ -13,6 +23,19 @@ export const AccessTimeFactoryABI = [
     {
         type: "receive",
         stateMutability: "payable"
+    },
+    {
+        type: "function",
+        name: "VERSION",
+        inputs: [],
+        outputs: [
+            {
+                name: "",
+                type: "uint8",
+                internalType: "uint8"
+            }
+        ],
+        stateMutability: "view"
     },
     {
         type: "function",
@@ -392,6 +415,25 @@ export const AccessTimeFactoryABI = [
     },
     {
         type: "event",
+        name: "ModuleStatusUpdated",
+        inputs: [
+            {
+                name: "moduleKey",
+                type: "bytes32",
+                indexed: true,
+                internalType: "bytes32"
+            },
+            {
+                name: "newStatus",
+                type: "bool",
+                indexed: true,
+                internalType: "bool"
+            }
+        ],
+        anonymous: false
+    },
+    {
+        type: "event",
         name: "OwnershipTransferStarted",
         inputs: [
             {
@@ -475,6 +517,11 @@ export const AccessTimeFactoryABI = [
     },
     {
         type: "error",
+        name: "DeployerCantBeZeroAddress",
+        inputs: []
+    },
+    {
+        type: "error",
         name: "EnforcedPause",
         inputs: []
     },
@@ -506,6 +553,17 @@ export const AccessTimeFactoryABI = [
     },
     {
         type: "error",
+        name: "ModuleNotAsExpected",
+        inputs: [
+            {
+                name: "moduleName",
+                type: "bytes32",
+                internalType: "bytes32"
+            }
+        ]
+    },
+    {
+        type: "error",
         name: "NotSupported",
         inputs: [
             {
@@ -514,6 +572,11 @@ export const AccessTimeFactoryABI = [
                 internalType: "address"
             }
         ]
+    },
+    {
+        type: "error",
+        name: "OnlyDeployerAuthorized",
+        inputs: []
     },
     {
         type: "error",
@@ -540,6 +603,11 @@ export const AccessTimeFactoryABI = [
     {
         type: "error",
         name: "PaymentCantBeZero",
+        inputs: []
+    },
+    {
+        type: "error",
+        name: "ReentrancyGuardReentrantCall",
         inputs: []
     },
     {

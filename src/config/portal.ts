@@ -41,26 +41,21 @@ export class Portal {
     public static supportedPaymentMethods: {
         [key in SUPPORTED_CHAIN]: SUPPORTED_PAYMENT_METHOD[]
     } = {
-        8453: [],
+        8453: [
+            {
+                name: "Ethereum",
+                symbol: "ETH",
+                decimal: 18,
+                address: "0x0000000000000000000000000000000000000000"
+            }
+        ],
         84532: [
             {
                 name: "Ethereum",
                 symbol: "ETH",
                 decimal: 18,
                 address: "0x0000000000000000000000000000000000000000"
-            },
-            {
-                name: "Test Token",
-                symbol: "TKN",
-                decimal: 18,
-                address: "0xf539b2fd80ddeacd82eb4ea2b1321c2b38afcb9a"
-            },
-            {
-                name: "Test Token 2",
-                symbol: "TKN 2",
-                decimal: 18,
-                address: "0x54580d3b0522429dba4bc18d6dd4f7d8c6900c46"
-            },
+            }
         ]
     };
 

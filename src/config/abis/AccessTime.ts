@@ -36,6 +36,19 @@ export const AccessTimeABI = [
     },
     {
         type: "function",
+        name: "VERSION",
+        inputs: [],
+        outputs: [
+            {
+                name: "",
+                type: "uint8",
+                internalType: "uint8"
+            }
+        ],
+        stateMutability: "view"
+    },
+    {
+        type: "function",
         name: "acceptOwnership",
         inputs: [],
         outputs: [],
@@ -437,10 +450,10 @@ export const AccessTimeABI = [
         name: "ModuleStatusUpdated",
         inputs: [
             {
-                name: "module",
-                type: "string",
+                name: "moduleKey",
+                type: "bytes32",
                 indexed: true,
-                internalType: "string"
+                internalType: "bytes32"
             },
             {
                 name: "newStatus",
@@ -631,17 +644,28 @@ export const AccessTimeABI = [
     },
     {
         type: "error",
-        name: "ExtraTimeModuleNotAsExpected",
-        inputs: []
-    },
-    {
-        type: "error",
         name: "ExtraTimeNotFound",
         inputs: [
             {
                 name: "extraID",
                 type: "uint256",
                 internalType: "uint256"
+            }
+        ]
+    },
+    {
+        type: "error",
+        name: "InvalidFee",
+        inputs: []
+    },
+    {
+        type: "error",
+        name: "ModuleNotAsExpected",
+        inputs: [
+            {
+                name: "moduleName",
+                type: "bytes32",
+                internalType: "bytes32"
             }
         ]
     },
@@ -685,11 +709,6 @@ export const AccessTimeABI = [
     },
     {
         type: "error",
-        name: "PackageModuleNotAsExpected",
-        inputs: []
-    },
-    {
-        type: "error",
         name: "PackageNotFound",
         inputs: [
             {
@@ -712,6 +731,11 @@ export const AccessTimeABI = [
     {
         type: "error",
         name: "PurchaseTimeNotEqualToPackageTime",
+        inputs: []
+    },
+    {
+        type: "error",
+        name: "ReentrancyGuardReentrantCall",
         inputs: []
     },
     {
