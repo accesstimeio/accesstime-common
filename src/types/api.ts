@@ -59,6 +59,7 @@ export interface PortalProjectDto extends Omit<PortalProjectCard, "id"> {
     contentUrl: string | null;
     paymentMethods: Address[];
     packages: PortalProjectPackage[];
+    domainVerifyDetails: PortalRequestDomainVerifyResponseDto | null;
 }
 
 export interface ExploreResponseDto {
@@ -93,4 +94,14 @@ export interface PortalLinkCheckResponseDto {
 
 export interface PortalLinkUpdateStatusResponseDto {
     allowed: boolean | null;
+}
+
+export interface PortalRequestDomainVerifyResponseDto {
+    domain: string;
+    recordKey: string;
+    recordValue: string;
+}
+
+export interface PortalCheckDomainVerifyResponseDto {
+    status: boolean;
 }

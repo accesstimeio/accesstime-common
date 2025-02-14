@@ -19,7 +19,9 @@ import {
     ProjectVotesResponseDto,
     FeaturedsResponseDto,
     PortalLinkCheckResponseDto,
-    PortalLinkUpdateStatusResponseDto
+    PortalLinkUpdateStatusResponseDto,
+    PortalRequestDomainVerifyResponseDto,
+    PortalCheckDomainVerifyResponseDto
 } from "../types";
 
 export class Api {
@@ -472,6 +474,40 @@ export class PortalApi extends AuthSignature {
         const hashedLink = encodeAbiParameters([{ type: "string" }], [link.toString()]);
 
         const { data } = await this.client.post(`/v1/portal/link/check/${hashedLink}`, { allowed: status }, {
+            headers: {
+                "X-ACCESSTIME-AUTH-MESSAGE": this.authMessage,
+                "X-ACCESSTIME-AUTH-SIGNATURE": this.authSignature,
+            }
+        });
+        return data;
+    }
+
+    public static async requestDomainVerify(
+        chainId: number,
+        id: number
+    ): Promise<PortalRequestDomainVerifyResponseDto> {
+        if (!this.authMessage || !this.authSignature) {
+            throw new Error("[PortalApi - requestDomainVerify] Auth is required!");
+        }
+
+        const { data } = await this.client.post(`/v1/portal/project/${chainId}/${id}/request-domain-verify`, undefined, {
+            headers: {
+                "X-ACCESSTIME-AUTH-MESSAGE": this.authMessage,
+                "X-ACCESSTIME-AUTH-SIGNATURE": this.authSignature,
+            }
+        });
+        return data;
+    }
+
+    public static async checkDomainVerify(
+        chainId: number,
+        id: number
+    ): Promise<PortalCheckDomainVerifyResponseDto> {
+        if (!this.authMessage || !this.authSignature) {
+            throw new Error("[PortalApi - checkDomainVerify] Auth is required!");
+        }
+
+        const { data } = await this.client.post(`/v1/portal/project/${chainId}/${id}/check-domain-verify`, undefined, {
             headers: {
                 "X-ACCESSTIME-AUTH-MESSAGE": this.authMessage,
                 "X-ACCESSTIME-AUTH-SIGNATURE": this.authSignature,
