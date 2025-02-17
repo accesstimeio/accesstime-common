@@ -59,6 +59,7 @@ export interface TokenRate {
     contract: string | undefined;
     rate: string;
     symbol: string;
+    decimals: number;
     balance?: string;
 }
 

@@ -20,6 +20,7 @@ export class Dashboard {
             id: 0,
             name: "Ethereum",
             symbol: "ETH",
+            decimals: 18,
             type: "coin",
             contract: zeroAddress,
             rate: parseEther("1").toString(),
