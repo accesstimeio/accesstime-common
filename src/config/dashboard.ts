@@ -1,6 +1,6 @@
 import { parseEther, zeroAddress } from "viem";
 
-import { DashboardDefaults, DashboardModules } from "../types";
+import { DashboardDefaults, Module } from "../types";
 
 export class Dashboard {
     public static defaults: DashboardDefaults = {
@@ -18,15 +18,12 @@ export class Dashboard {
         },
         paymentMethod: {
             id: 0,
-            name: "Ethereum",
-            symbol: "ETH",
-            decimals: 18,
             type: "coin",
             contract: zeroAddress,
             rate: parseEther("1").toString(),
         }
     }
-    public static modules: DashboardModules = [
+    public static modules: Module[] = [
         {
             name: "Fixed Packages",
             type: "package",
