@@ -105,3 +105,8 @@ export interface PortalRequestDomainVerifyResponseDto {
 export interface PortalCheckDomainVerifyResponseDto {
     status: boolean;
 }
+
+export interface StatisticsResponseDto {
+    value: string;
+    timeIndex: string;
+}

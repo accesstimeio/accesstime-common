@@ -21,7 +21,9 @@ import {
     PortalLinkCheckResponseDto,
     PortalLinkUpdateStatusResponseDto,
     PortalRequestDomainVerifyResponseDto,
-    PortalCheckDomainVerifyResponseDto
+    PortalCheckDomainVerifyResponseDto,
+    StatisticsResponseDto,
+    StatisticTimeGap
 } from "../types";
 
 export class Api {
@@ -82,6 +84,71 @@ export class DashboardApi extends Api {
 
     public static async project(chainId: number, id: number): Promise<ProjectResponseDto> {
         const { data } = await this.client.get(`/v1/dashboard/project/${chainId}/${id}`);
+        return data;
+    };
+
+    public static async statisticsProjectTotalSoldAccessTime(chainId: number, id: number, timeGap?: StatisticTimeGap): Promise<StatisticsResponseDto[]> {
+        const query = new URLSearchParams();
+        if (timeGap) {
+            if (isNaN(Number(timeGap))) throw new Error("Invalid timeGap query!");
+
+            query.append("timeGap", timeGap.toString());
+        }
+
+        const { data } = await this.client.get(`/v1/dashboard/statistic/${chainId}/${id}/total-sold-accesstime` + (query.size > 0 ? `?${query.toString()}` : ""));
+        return data;
+    };
+
+    public static async statisticsProjectTotalUser(chainId: number, id: number, timeGap?: StatisticTimeGap): Promise<StatisticsResponseDto[]> {
+        const query = new URLSearchParams();
+        if (timeGap) {
+            if (isNaN(Number(timeGap))) throw new Error("Invalid timeGap query!");
+
+            query.append("timeGap", timeGap.toString());
+        }
+
+        const { data } = await this.client.get(`/v1/dashboard/statistic/${chainId}/${id}/total-user` + (query.size > 0 ? `?${query.toString()}` : ""));
+        return data;
+    };
+
+    public static async statisticsProjectTotalVotes(chainId: number, id: number, timeGap?: StatisticTimeGap): Promise<StatisticsResponseDto[]> {
+        const query = new URLSearchParams();
+        if (timeGap) {
+            if (isNaN(Number(timeGap))) throw new Error("Invalid timeGap query!");
+
+            query.append("timeGap", timeGap.toString());
+        }
+
+        const { data } = await this.client.get(`/v1/dashboard/statistic/${chainId}/${id}/total-votes` + (query.size > 0 ? `?${query.toString()}` : ""));
+        return data;
+    };
+
+    public static async statisticsProjectTotalIncome(chainId: number, id: number, paymentMethod?: Address, timeGap?: StatisticTimeGap): Promise<StatisticsResponseDto[]> {
+        const query = new URLSearchParams();
+        if (timeGap) {
+            if (isNaN(Number(timeGap))) throw new Error("Invalid timeGap query!");
+
+            query.append("timeGap", timeGap.toString());
+        }
+        if (paymentMethod) {
+            if (!isAddress(paymentMethod)) throw new Error("Invalid paymentMethod query!");
+
+            query.append("paymentMethod", paymentMethod);
+        }
+
+        const { data } = await this.client.get(`/v1/dashboard/statistic/${chainId}/${id}/total-income` + (query.size > 0 ? `?${query.toString()}` : ""));
+        return data;
+    };
+
+    public static async statisticsProjectNewUser(chainId: number, id: number, timeGap?: StatisticTimeGap): Promise<StatisticsResponseDto[]> {
+        const query = new URLSearchParams();
+        if (timeGap) {
+            if (isNaN(Number(timeGap))) throw new Error("Invalid timeGap query!");
+
+            query.append("timeGap", timeGap.toString());
+        }
+
+        const { data } = await this.client.get(`/v1/dashboard/statistic/${chainId}/${id}/new-user` + (query.size > 0 ? `?${query.toString()}` : ""));
         return data;
     };
 }
