@@ -43,4 +43,4 @@ export type SUPPORTED_PAYMENT_METHOD = {
     symbol: string;
     decimal: number;
     address: Address;
-}
+};

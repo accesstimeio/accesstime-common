@@ -30,7 +30,8 @@ export class Portal {
         [PortalSocialType.Lens]: /^https?:\/\/(www\.)?lens\.xyz\/[a-zA-Z0-9_.-]+\/?$/,
         [PortalSocialType.Discord]: /^https?:\/\/(www\.)?discord\.gg\/[a-zA-Z0-9]+\/?$/,
         [PortalSocialType.Slack]: /^https?:\/\/[a-zA-Z0-9-_.]+\.slack\.com\/?$/,
-        [PortalSocialType.YouTube]: /^https?:\/\/(www\.)?youtube\.com\/(channel|c|user)\/[a-zA-Z0-9_-]+\/?$/,
+        [PortalSocialType.YouTube]:
+            /^https?:\/\/(www\.)?youtube\.com\/(channel|c|user)\/[a-zA-Z0-9_-]+\/?$/,
         [PortalSocialType.Instagram]: /^https?:\/\/(www\.)?instagram\.com\/[a-zA-Z0-9_.]+\/?$/,
         [PortalSocialType.Reddit]: /^https?:\/\/(www\.)?reddit\.com\/u\/[a-zA-Z0-9_-]+\/?$/,
         [PortalSocialType.Telegram]: /^https?:\/\/(www\.)?t\.me\/[a-zA-Z0-9_]+\/?$/,
@@ -39,7 +40,7 @@ export class Portal {
     };
 
     public static supportedPaymentMethods: {
-        [key in SUPPORTED_CHAIN]: SUPPORTED_PAYMENT_METHOD[]
+        [key in SUPPORTED_CHAIN]: SUPPORTED_PAYMENT_METHOD[];
     } = {
         8453: [
             {
@@ -60,7 +61,8 @@ export class Portal {
     };
 
     public static socialUrlVerify(socialType: PortalSocialType, url: string, throwError?: boolean) {
-        if (throwError == true && !this.socialTypes.includes(socialType)) throw new Error("Invalid social type!");
+        if (throwError == true && !this.socialTypes.includes(socialType))
+            throw new Error("Invalid social type!");
 
         return this.socialTypePatterns[socialType].test(url);
     }

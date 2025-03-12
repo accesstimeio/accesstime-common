@@ -34,14 +34,14 @@ export type RatesResponseDto = {
 export type PortalProjectSocial = {
     type: number;
     url: string;
-}
+};
 
 export type PortalProjectPackage = {
     id: number;
     title: string;
     backgroundUrl: string;
     contentUrl: string;
-}
+};
 
 export interface PortalProjectCard {
     id: Address;
@@ -69,7 +69,7 @@ export interface ExploreResponseDto {
     pageCursor: string | null;
 }
 
-export interface FavoritesResponseDto extends ExploreResponseDto { }
+export interface FavoritesResponseDto extends ExploreResponseDto {}
 
 export type ProjectToggleFavoriteResponseDto = {
     isFavoritedNow: boolean | null;
@@ -82,7 +82,11 @@ export type ProjectVotesResponseDto = {
     voteParticipantCount: number;
 };
 
-export interface FeaturedsResponseDto extends Omit<PortalProjectCard, "id" | "votePoint" | "voteParticipantCount" | "isFavorited" | "categories"> {
+export interface FeaturedsResponseDto
+    extends Omit<
+        PortalProjectCard,
+        "id" | "votePoint" | "voteParticipantCount" | "isFavorited" | "categories"
+    > {
     id: string;
     chainId: number;
     address: Address;
@@ -109,4 +113,18 @@ export interface PortalCheckDomainVerifyResponseDto {
 export interface StatisticsResponseDto {
     value: string;
     timeIndex: string;
+}
+
+export interface ProjectUserDto {
+    address: Address;
+    totalPurchasedTime: string;
+    endTime: string;
+    usedPaymentMethods: Address[];
+}
+
+export interface ProjectUsersResponseDto {
+    items: ProjectUserDto[];
+    totalCount: number;
+    pageCursor: string | null;
+    maxPage: number;
 }

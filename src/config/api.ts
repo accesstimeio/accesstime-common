@@ -1,5 +1,12 @@
 import axios, { AxiosInstance } from "axios";
-import { Address, encodeAbiParameters, Hash, isAddress, TypedDataDomain, verifyTypedData } from "viem";
+import {
+    Address,
+    encodeAbiParameters,
+    Hash,
+    isAddress,
+    TypedDataDomain,
+    verifyTypedData
+} from "viem";
 
 import { Portal } from "./portal";
 
@@ -23,7 +30,8 @@ import {
     PortalRequestDomainVerifyResponseDto,
     PortalCheckDomainVerifyResponseDto,
     StatisticsResponseDto,
-    StatisticTimeGap
+    StatisticTimeGap,
+    ProjectUsersResponseDto
 } from "../types";
 
 export class Api {
@@ -52,10 +60,15 @@ export class Api {
 }
 
 export class DashboardApi extends Api {
-    public static async lastDeployments(chainId: number, address: Address): Promise<DeploymentDto[]> {
-        const { data } = await this.client.get(`/v1/dashboard/deployment/last/${chainId}/${address}`);
+    public static async lastDeployments(
+        chainId: number,
+        address: Address
+    ): Promise<DeploymentDto[]> {
+        const { data } = await this.client.get(
+            `/v1/dashboard/deployment/last/${chainId}/${address}`
+        );
         return data;
-    };
+    }
 
     public static async listDeployments(
         chainId: number,
@@ -73,21 +86,28 @@ export class DashboardApi extends Api {
             query.append("pageCursor", pageCursor.toString());
         }
 
-        const { data } = await this.client.get(`/v1/dashboard/deployment/list/${chainId}/${address}` + (query.size > 0 ? `?${query.toString()}` : ""));
+        const { data } = await this.client.get(
+            `/v1/dashboard/deployment/list/${chainId}/${address}` +
+                (query.size > 0 ? `?${query.toString()}` : "")
+        );
         return data;
-    };
+    }
 
     public static async rates(chainId: number): Promise<RatesResponseDto[]> {
         const { data } = await this.client.get(`/v1/dashboard/deployment/${chainId}/rates`);
         return data;
-    };
+    }
 
     public static async project(chainId: number, id: number): Promise<ProjectResponseDto> {
         const { data } = await this.client.get(`/v1/dashboard/project/${chainId}/${id}`);
         return data;
-    };
+    }
 
-    public static async statisticsProjectTotalSoldAccessTime(chainId: number, id: number, timeGap?: StatisticTimeGap): Promise<StatisticsResponseDto[]> {
+    public static async statisticsProjectTotalSoldAccessTime(
+        chainId: number,
+        id: number,
+        timeGap?: StatisticTimeGap
+    ): Promise<StatisticsResponseDto[]> {
         const query = new URLSearchParams();
         if (timeGap) {
             if (isNaN(Number(timeGap))) throw new Error("Invalid timeGap query!");
@@ -95,11 +115,18 @@ export class DashboardApi extends Api {
             query.append("timeGap", timeGap.toString());
         }
 
-        const { data } = await this.client.get(`/v1/dashboard/statistic/${chainId}/${id}/total-sold-accesstime` + (query.size > 0 ? `?${query.toString()}` : ""));
+        const { data } = await this.client.get(
+            `/v1/dashboard/statistic/${chainId}/${id}/total-sold-accesstime` +
+                (query.size > 0 ? `?${query.toString()}` : "")
+        );
         return data;
-    };
+    }
 
-    public static async statisticsProjectTotalUser(chainId: number, id: number, timeGap?: StatisticTimeGap): Promise<StatisticsResponseDto[]> {
+    public static async statisticsProjectTotalUser(
+        chainId: number,
+        id: number,
+        timeGap?: StatisticTimeGap
+    ): Promise<StatisticsResponseDto[]> {
         const query = new URLSearchParams();
         if (timeGap) {
             if (isNaN(Number(timeGap))) throw new Error("Invalid timeGap query!");
@@ -107,11 +134,18 @@ export class DashboardApi extends Api {
             query.append("timeGap", timeGap.toString());
         }
 
-        const { data } = await this.client.get(`/v1/dashboard/statistic/${chainId}/${id}/total-user` + (query.size > 0 ? `?${query.toString()}` : ""));
+        const { data } = await this.client.get(
+            `/v1/dashboard/statistic/${chainId}/${id}/total-user` +
+                (query.size > 0 ? `?${query.toString()}` : "")
+        );
         return data;
-    };
+    }
 
-    public static async statisticsProjectTotalVotes(chainId: number, id: number, timeGap?: StatisticTimeGap): Promise<StatisticsResponseDto[]> {
+    public static async statisticsProjectTotalVotes(
+        chainId: number,
+        id: number,
+        timeGap?: StatisticTimeGap
+    ): Promise<StatisticsResponseDto[]> {
         const query = new URLSearchParams();
         if (timeGap) {
             if (isNaN(Number(timeGap))) throw new Error("Invalid timeGap query!");
@@ -119,11 +153,19 @@ export class DashboardApi extends Api {
             query.append("timeGap", timeGap.toString());
         }
 
-        const { data } = await this.client.get(`/v1/dashboard/statistic/${chainId}/${id}/total-votes` + (query.size > 0 ? `?${query.toString()}` : ""));
+        const { data } = await this.client.get(
+            `/v1/dashboard/statistic/${chainId}/${id}/total-votes` +
+                (query.size > 0 ? `?${query.toString()}` : "")
+        );
         return data;
-    };
+    }
 
-    public static async statisticsProjectTotalIncome(chainId: number, id: number, paymentMethod?: Address, timeGap?: StatisticTimeGap): Promise<StatisticsResponseDto[]> {
+    public static async statisticsProjectTotalIncome(
+        chainId: number,
+        id: number,
+        paymentMethod?: Address,
+        timeGap?: StatisticTimeGap
+    ): Promise<StatisticsResponseDto[]> {
         const query = new URLSearchParams();
         if (timeGap) {
             if (isNaN(Number(timeGap))) throw new Error("Invalid timeGap query!");
@@ -136,11 +178,18 @@ export class DashboardApi extends Api {
             query.append("paymentMethod", paymentMethod);
         }
 
-        const { data } = await this.client.get(`/v1/dashboard/statistic/${chainId}/${id}/total-income` + (query.size > 0 ? `?${query.toString()}` : ""));
+        const { data } = await this.client.get(
+            `/v1/dashboard/statistic/${chainId}/${id}/total-income` +
+                (query.size > 0 ? `?${query.toString()}` : "")
+        );
         return data;
-    };
+    }
 
-    public static async statisticsProjectNewUser(chainId: number, id: number, timeGap?: StatisticTimeGap): Promise<StatisticsResponseDto[]> {
+    public static async statisticsProjectNewUser(
+        chainId: number,
+        id: number,
+        timeGap?: StatisticTimeGap
+    ): Promise<StatisticsResponseDto[]> {
         const query = new URLSearchParams();
         if (timeGap) {
             if (isNaN(Number(timeGap))) throw new Error("Invalid timeGap query!");
@@ -148,9 +197,33 @@ export class DashboardApi extends Api {
             query.append("timeGap", timeGap.toString());
         }
 
-        const { data } = await this.client.get(`/v1/dashboard/statistic/${chainId}/${id}/new-user` + (query.size > 0 ? `?${query.toString()}` : ""));
+        const { data } = await this.client.get(
+            `/v1/dashboard/statistic/${chainId}/${id}/new-user` +
+                (query.size > 0 ? `?${query.toString()}` : "")
+        );
         return data;
-    };
+    }
+
+    public static async projectUsers(
+        chainId: number,
+        id: number,
+        orderBy?: string,
+        pageCursor?: string
+    ): Promise<ProjectUsersResponseDto> {
+        const query = new URLSearchParams();
+        if (orderBy) {
+            query.append("orderBy", orderBy.toString());
+        }
+
+        if (pageCursor) {
+            query.append("pageCursor", pageCursor.toString());
+        }
+
+        const { data } = await this.client.get(
+            `/v1/dashboard/user/${chainId}/${id}` + (query.size > 0 ? `?${query.toString()}` : "")
+        );
+        return data;
+    }
 }
 
 const AuthAbiParameters = [
@@ -219,7 +292,7 @@ export class PortalApi extends AuthSignature {
     public static async featureds(): Promise<FeaturedsResponseDto[]> {
         const { data } = await this.client.get(`/v1/portal/featureds`);
         return data;
-    };
+    }
 
     public static async explore(
         chainId: number,
@@ -253,19 +326,19 @@ export class PortalApi extends AuthSignature {
         const { data } = await this.client.get(
             `/v1/portal/explore/${chainId}` + (query.size > 0 ? `?${query.toString()}` : ""),
             {
-                headers: (this.authMessage && this.authSignature) ? {
-                    "X-ACCESSTIME-AUTH-MESSAGE": this.authMessage,
-                    "X-ACCESSTIME-AUTH-SIGNATURE": this.authSignature,
-                } : undefined
+                headers:
+                    this.authMessage && this.authSignature
+                        ? {
+                              "X-ACCESSTIME-AUTH-MESSAGE": this.authMessage,
+                              "X-ACCESSTIME-AUTH-SIGNATURE": this.authSignature
+                          }
+                        : undefined
             }
         );
         return data;
-    };
+    }
 
-    public static async favorites(
-        chainId: number,
-        page?: number
-    ): Promise<FavoritesResponseDto> {
+    public static async favorites(chainId: number, page?: number): Promise<FavoritesResponseDto> {
         const query = new URLSearchParams();
         if (page) {
             if (isNaN(Number(page))) throw new Error("Invalid page query!");
@@ -282,25 +355,25 @@ export class PortalApi extends AuthSignature {
             {
                 headers: {
                     "X-ACCESSTIME-AUTH-MESSAGE": this.authMessage,
-                    "X-ACCESSTIME-AUTH-SIGNATURE": this.authSignature,
+                    "X-ACCESSTIME-AUTH-SIGNATURE": this.authSignature
                 }
             }
         );
         return data;
-    };
+    }
 
-    public static async projectById(
-        chainId: number,
-        id: number
-    ): Promise<PortalProjectDto> {
+    public static async projectById(chainId: number, id: number): Promise<PortalProjectDto> {
         const { data } = await this.client.get(`/v1/portal/project/${chainId}/${id}`, {
-            headers: (this.authMessage && this.authSignature) ? {
-                "X-ACCESSTIME-AUTH-MESSAGE": this.authMessage,
-                "X-ACCESSTIME-AUTH-SIGNATURE": this.authSignature,
-            } : undefined
+            headers:
+                this.authMessage && this.authSignature
+                    ? {
+                          "X-ACCESSTIME-AUTH-MESSAGE": this.authMessage,
+                          "X-ACCESSTIME-AUTH-SIGNATURE": this.authSignature
+                      }
+                    : undefined
         });
         return data;
-    };
+    }
 
     public static async toggleFavorite(
         chainId: number,
@@ -310,14 +383,18 @@ export class PortalApi extends AuthSignature {
             throw new Error("[PortalApi - toggleFavorite] Auth is required!");
         }
 
-        const { data } = await this.client.post(`/v1/portal/project/${chainId}/${id}/toggle-favorite`, undefined, {
-            headers: {
-                "X-ACCESSTIME-AUTH-MESSAGE": this.authMessage,
-                "X-ACCESSTIME-AUTH-SIGNATURE": this.authSignature,
+        const { data } = await this.client.post(
+            `/v1/portal/project/${chainId}/${id}/toggle-favorite`,
+            undefined,
+            {
+                headers: {
+                    "X-ACCESSTIME-AUTH-MESSAGE": this.authMessage,
+                    "X-ACCESSTIME-AUTH-SIGNATURE": this.authSignature
+                }
             }
-        });
+        );
         return data;
-    };
+    }
 
     public static async projectVotes(
         chainId: number,
@@ -325,7 +402,7 @@ export class PortalApi extends AuthSignature {
     ): Promise<ProjectVotesResponseDto> {
         const { data } = await this.client.get(`/v1/portal/project/${chainId}/${id}/votes`);
         return data;
-    };
+    }
 
     public static async updateProjectAvatar(
         chainId: number,
@@ -340,14 +417,18 @@ export class PortalApi extends AuthSignature {
             throw new Error("[PortalApi - updateProjectAvatar] File is not attached!");
         }
 
-        const { data } = await this.client.post(`/v1/portal/creator/update-project-avatar/${chainId}/${id}`, formData, {
-            headers: {
-                "X-ACCESSTIME-AUTH-MESSAGE": this.authMessage,
-                "X-ACCESSTIME-AUTH-SIGNATURE": this.authSignature,
+        const { data } = await this.client.post(
+            `/v1/portal/creator/update-project-avatar/${chainId}/${id}`,
+            formData,
+            {
+                headers: {
+                    "X-ACCESSTIME-AUTH-MESSAGE": this.authMessage,
+                    "X-ACCESSTIME-AUTH-SIGNATURE": this.authSignature
+                }
             }
-        });
+        );
         return data;
-    };
+    }
 
     public static async updateProjectSocials(
         chainId: number,
@@ -362,16 +443,20 @@ export class PortalApi extends AuthSignature {
             throw new Error("[PortalApi - updateProjectSocials] Payload is not acceptable!");
         }
 
-        const { data } = await this.client.post(`/v1/portal/creator/update-project-socials/${chainId}/${id}`, {
-            payload: socials
-        }, {
-            headers: {
-                "X-ACCESSTIME-AUTH-MESSAGE": this.authMessage,
-                "X-ACCESSTIME-AUTH-SIGNATURE": this.authSignature,
+        const { data } = await this.client.post(
+            `/v1/portal/creator/update-project-socials/${chainId}/${id}`,
+            {
+                payload: socials
+            },
+            {
+                headers: {
+                    "X-ACCESSTIME-AUTH-MESSAGE": this.authMessage,
+                    "X-ACCESSTIME-AUTH-SIGNATURE": this.authSignature
+                }
             }
-        });
+        );
         return data;
-    };
+    }
 
     public static async updateProjectCategories(
         chainId: number,
@@ -386,16 +471,20 @@ export class PortalApi extends AuthSignature {
             throw new Error("[PortalApi - updateProjectCategories] Payload is empty!");
         }
 
-        const { data } = await this.client.post(`/v1/portal/creator/update-project-categories/${chainId}/${id}`, {
-            payload: categories
-        }, {
-            headers: {
-                "X-ACCESSTIME-AUTH-MESSAGE": this.authMessage,
-                "X-ACCESSTIME-AUTH-SIGNATURE": this.authSignature,
+        const { data } = await this.client.post(
+            `/v1/portal/creator/update-project-categories/${chainId}/${id}`,
+            {
+                payload: categories
+            },
+            {
+                headers: {
+                    "X-ACCESSTIME-AUTH-MESSAGE": this.authMessage,
+                    "X-ACCESSTIME-AUTH-SIGNATURE": this.authSignature
+                }
             }
-        });
+        );
         return data;
-    };
+    }
 
     public static async updateProjectContent(
         chainId: number,
@@ -410,14 +499,18 @@ export class PortalApi extends AuthSignature {
             throw new Error("[PortalApi - updateProjectContent] File is not attached!");
         }
 
-        const { data } = await this.client.post(`/v1/portal/creator/update-project-content/${chainId}/${id}`, formData, {
-            headers: {
-                "X-ACCESSTIME-AUTH-MESSAGE": this.authMessage,
-                "X-ACCESSTIME-AUTH-SIGNATURE": this.authSignature,
+        const { data } = await this.client.post(
+            `/v1/portal/creator/update-project-content/${chainId}/${id}`,
+            formData,
+            {
+                headers: {
+                    "X-ACCESSTIME-AUTH-MESSAGE": this.authMessage,
+                    "X-ACCESSTIME-AUTH-SIGNATURE": this.authSignature
+                }
             }
-        });
+        );
         return data;
-    };
+    }
 
     public static async updateProjectPackages(
         chainId: number,
@@ -432,16 +525,20 @@ export class PortalApi extends AuthSignature {
             throw new Error("[PortalApi - updateProjectPackages] Payload is empty!");
         }
 
-        const { data } = await this.client.post(`/v1/portal/creator/update-project-packages/${chainId}/${id}`, {
-            payload: packages
-        }, {
-            headers: {
-                "X-ACCESSTIME-AUTH-MESSAGE": this.authMessage,
-                "X-ACCESSTIME-AUTH-SIGNATURE": this.authSignature,
+        const { data } = await this.client.post(
+            `/v1/portal/creator/update-project-packages/${chainId}/${id}`,
+            {
+                payload: packages
+            },
+            {
+                headers: {
+                    "X-ACCESSTIME-AUTH-MESSAGE": this.authMessage,
+                    "X-ACCESSTIME-AUTH-SIGNATURE": this.authSignature
+                }
             }
-        });
+        );
         return data;
-    };
+    }
 
     public static async updateProjectPackageImage(
         chainId: number,
@@ -457,14 +554,18 @@ export class PortalApi extends AuthSignature {
             throw new Error("[PortalApi - updateProjectPackageImage] File is not attached!");
         }
 
-        const { data } = await this.client.post(`/v1/portal/creator/update-project-package-image/${chainId}/${id}/${packageId}`, formData, {
-            headers: {
-                "X-ACCESSTIME-AUTH-MESSAGE": this.authMessage,
-                "X-ACCESSTIME-AUTH-SIGNATURE": this.authSignature,
+        const { data } = await this.client.post(
+            `/v1/portal/creator/update-project-package-image/${chainId}/${id}/${packageId}`,
+            formData,
+            {
+                headers: {
+                    "X-ACCESSTIME-AUTH-MESSAGE": this.authMessage,
+                    "X-ACCESSTIME-AUTH-SIGNATURE": this.authSignature
+                }
             }
-        });
+        );
         return data;
-    };
+    }
 
     public static async updateProjectPackageContent(
         chainId: number,
@@ -480,46 +581,52 @@ export class PortalApi extends AuthSignature {
             throw new Error("[PortalApi - updateProjectPackageContent] File is not attached!");
         }
 
-        const { data } = await this.client.post(`/v1/portal/creator/update-project-package-content/${chainId}/${id}/${packageId}`, formData, {
-            headers: {
-                "X-ACCESSTIME-AUTH-MESSAGE": this.authMessage,
-                "X-ACCESSTIME-AUTH-SIGNATURE": this.authSignature,
+        const { data } = await this.client.post(
+            `/v1/portal/creator/update-project-package-content/${chainId}/${id}/${packageId}`,
+            formData,
+            {
+                headers: {
+                    "X-ACCESSTIME-AUTH-MESSAGE": this.authMessage,
+                    "X-ACCESSTIME-AUTH-SIGNATURE": this.authSignature
+                }
             }
-        });
+        );
         return data;
-    };
+    }
 
-    public static async toggleFeatured(
-        chainId: number,
-        id: number
-    ): Promise<boolean> {
+    public static async toggleFeatured(chainId: number, id: number): Promise<boolean> {
         if (!this.authMessage || !this.authSignature) {
             throw new Error("[PortalApi - toggleFeatured] Auth is required!");
         }
 
-        const { data } = await this.client.post(`/v1/portal/project/${chainId}/${id}/toggle-featured`, undefined, {
-            headers: {
-                "X-ACCESSTIME-AUTH-MESSAGE": this.authMessage,
-                "X-ACCESSTIME-AUTH-SIGNATURE": this.authSignature,
+        const { data } = await this.client.post(
+            `/v1/portal/project/${chainId}/${id}/toggle-featured`,
+            undefined,
+            {
+                headers: {
+                    "X-ACCESSTIME-AUTH-MESSAGE": this.authMessage,
+                    "X-ACCESSTIME-AUTH-SIGNATURE": this.authSignature
+                }
             }
-        });
+        );
         return data;
     }
 
-    public static async togglePortalVerify(
-        chainId: number,
-        id: number
-    ): Promise<boolean> {
+    public static async togglePortalVerify(chainId: number, id: number): Promise<boolean> {
         if (!this.authMessage || !this.authSignature) {
             throw new Error("[PortalApi - togglePortalVerify] Auth is required!");
         }
 
-        const { data } = await this.client.post(`/v1/portal/project/${chainId}/${id}/toggle-portal-verify`, undefined, {
-            headers: {
-                "X-ACCESSTIME-AUTH-MESSAGE": this.authMessage,
-                "X-ACCESSTIME-AUTH-SIGNATURE": this.authSignature,
+        const { data } = await this.client.post(
+            `/v1/portal/project/${chainId}/${id}/toggle-portal-verify`,
+            undefined,
+            {
+                headers: {
+                    "X-ACCESSTIME-AUTH-MESSAGE": this.authMessage,
+                    "X-ACCESSTIME-AUTH-SIGNATURE": this.authSignature
+                }
             }
-        });
+        );
         return data;
     }
 
@@ -528,7 +635,7 @@ export class PortalApi extends AuthSignature {
 
         const { data } = await this.client.get(`/v1/portal/link/check/${hashedLink}`);
         return data;
-    };
+    }
 
     public static async linkUpdateStatus(
         link: string,
@@ -540,12 +647,16 @@ export class PortalApi extends AuthSignature {
 
         const hashedLink = encodeAbiParameters([{ type: "string" }], [link.toString()]);
 
-        const { data } = await this.client.post(`/v1/portal/link/check/${hashedLink}`, { allowed: status }, {
-            headers: {
-                "X-ACCESSTIME-AUTH-MESSAGE": this.authMessage,
-                "X-ACCESSTIME-AUTH-SIGNATURE": this.authSignature,
+        const { data } = await this.client.post(
+            `/v1/portal/link/check/${hashedLink}`,
+            { allowed: status },
+            {
+                headers: {
+                    "X-ACCESSTIME-AUTH-MESSAGE": this.authMessage,
+                    "X-ACCESSTIME-AUTH-SIGNATURE": this.authSignature
+                }
             }
-        });
+        );
         return data;
     }
 
@@ -557,12 +668,16 @@ export class PortalApi extends AuthSignature {
             throw new Error("[PortalApi - requestDomainVerify] Auth is required!");
         }
 
-        const { data } = await this.client.post(`/v1/portal/project/${chainId}/${id}/request-domain-verify`, undefined, {
-            headers: {
-                "X-ACCESSTIME-AUTH-MESSAGE": this.authMessage,
-                "X-ACCESSTIME-AUTH-SIGNATURE": this.authSignature,
+        const { data } = await this.client.post(
+            `/v1/portal/project/${chainId}/${id}/request-domain-verify`,
+            undefined,
+            {
+                headers: {
+                    "X-ACCESSTIME-AUTH-MESSAGE": this.authMessage,
+                    "X-ACCESSTIME-AUTH-SIGNATURE": this.authSignature
+                }
             }
-        });
+        );
         return data;
     }
 
@@ -574,12 +689,16 @@ export class PortalApi extends AuthSignature {
             throw new Error("[PortalApi - checkDomainVerify] Auth is required!");
         }
 
-        const { data } = await this.client.post(`/v1/portal/project/${chainId}/${id}/check-domain-verify`, undefined, {
-            headers: {
-                "X-ACCESSTIME-AUTH-MESSAGE": this.authMessage,
-                "X-ACCESSTIME-AUTH-SIGNATURE": this.authSignature,
+        const { data } = await this.client.post(
+            `/v1/portal/project/${chainId}/${id}/check-domain-verify`,
+            undefined,
+            {
+                headers: {
+                    "X-ACCESSTIME-AUTH-MESSAGE": this.authMessage,
+                    "X-ACCESSTIME-AUTH-SIGNATURE": this.authSignature
+                }
             }
-        });
+        );
         return data;
     }
 }

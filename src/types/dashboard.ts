@@ -1,10 +1,10 @@
 import { Log } from "viem";
 
 export enum TransactionStatus {
-	PENDING,
-	SUCCESS,
-	FAILED,
-	LOADING,
+    PENDING,
+    SUCCESS,
+    FAILED,
+    LOADING
 }
 
 export type ModuleType = "extra" | "package";
@@ -63,12 +63,12 @@ export enum StatisticType {
 
 export enum StatisticSoldAccessTimeType {
     COMPANY = 10,
-    PROJECT = 11,
+    PROJECT = 11
 }
 
 export enum StatisticUserType {
     COMPANY = 20,
-    PROJECT = 21,
+    PROJECT = 21
 }
 
 export enum StatisticNewUserType {
@@ -79,7 +79,7 @@ export enum StatisticNewUserType {
 
 export enum StatisticVoteType {
     COMPANY = 40,
-    PROJECT = 51,
+    PROJECT = 51
 }
 
 export enum StatisticIncomeType {
