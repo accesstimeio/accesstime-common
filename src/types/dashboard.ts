@@ -79,7 +79,7 @@ export enum StatisticNewUserType {
 
 export enum StatisticVoteType {
     COMPANY = 40,
-    PROJECT = 51
+    PROJECT = 41
 }
 
 export enum StatisticIncomeType {

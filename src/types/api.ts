@@ -10,6 +10,7 @@ export type ListDeploymentResponseDto = {
     page: number;
     maxPage: number;
     deployments: DeploymentDto[];
+    totalCount: number;
     pageCursor: string | null;
 };
 
@@ -124,6 +125,23 @@ export interface ProjectUserDto {
 
 export interface ProjectUsersResponseDto {
     items: ProjectUserDto[];
+    totalCount: number;
+    pageCursor: string | null;
+    maxPage: number;
+}
+
+export interface ProjectIncomeDto {
+    accessTimeAddress: Address;
+    address: Address;
+    amount: string;
+    packageId: string;
+    paymentAmount: string;
+    paymentMethod: Address;
+    timestamp: string;
+}
+
+export interface ProjectIncomesResponseDto {
+    items: ProjectIncomeDto[];
     totalCount: number;
     pageCursor: string | null;
     maxPage: number;

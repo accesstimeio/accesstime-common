@@ -31,7 +31,8 @@ import {
     PortalCheckDomainVerifyResponseDto,
     StatisticsResponseDto,
     StatisticTimeGap,
-    ProjectUsersResponseDto
+    ProjectUsersResponseDto,
+    ProjectIncomesResponseDto
 } from "../types";
 
 export class Api {
@@ -221,6 +222,24 @@ export class DashboardApi extends Api {
 
         const { data } = await this.client.get(
             `/v1/dashboard/user/${chainId}/${id}` + (query.size > 0 ? `?${query.toString()}` : "")
+        );
+        return data;
+    }
+
+    public static async projectIncomes(
+        chainId: number,
+        id: number,
+        pageCursor?: string
+    ): Promise<ProjectIncomesResponseDto> {
+        const query = new URLSearchParams();
+
+        if (pageCursor) {
+            query.append("pageCursor", pageCursor.toString());
+        }
+
+        const { data } = await this.client.get(
+            `/v1/dashboard/accounting/${chainId}/${id}` +
+                (query.size > 0 ? `?${query.toString()}` : "")
         );
         return data;
     }
