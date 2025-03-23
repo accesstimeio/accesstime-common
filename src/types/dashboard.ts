@@ -87,3 +87,8 @@ export enum StatisticIncomeType {
     PROJECT = 51,
     CUMULATIVE_PROJECTS = 52
 }
+
+export type FixedTime = {
+    text: string;
+    value: number;
+};
