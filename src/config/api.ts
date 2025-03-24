@@ -667,7 +667,7 @@ export class PortalApi extends AuthSignature {
         const hashedLink = encodeAbiParameters([{ type: "string" }], [link.toString()]);
 
         const { data } = await this.client.post(
-            `/v1/portal/link/check/${hashedLink}`,
+            `/v1/portal/link/update-status/${hashedLink}`,
             { allowed: status },
             {
                 headers: {
