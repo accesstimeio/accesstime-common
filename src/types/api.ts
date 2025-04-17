@@ -7,7 +7,6 @@ export type DeploymentDto = {
 };
 
 export type ListDeploymentResponseDto = {
-    page: number;
     maxPage: number;
     deployments: DeploymentDto[];
     totalCount: number;
