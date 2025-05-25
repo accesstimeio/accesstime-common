@@ -4,6 +4,7 @@ export type DeploymentDto = {
     accessTimeId: string;
     id: Address;
     paused: boolean;
+    chainId: number;
 };
 
 export type ListDeploymentResponseDto = {
@@ -44,6 +45,7 @@ export type PortalProjectPackage = {
 
 export interface PortalProjectCard {
     id: Address;
+    chainId: number;
     avatarUrl: string | null;
     votePoint: number;
     voteParticipantCount: number;
@@ -53,7 +55,7 @@ export interface PortalProjectCard {
     categories: number[];
 }
 
-export interface PortalProjectDto extends Omit<PortalProjectCard, "id"> {
+export interface PortalProjectDto extends Omit<PortalProjectCard, "id" | "chainId"> {
     socials: PortalProjectSocial[];
     contentUrl: string | null;
     paymentMethods: Address[];
