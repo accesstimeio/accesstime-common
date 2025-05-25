@@ -10,7 +10,6 @@ export type ListDeploymentResponseDto = {
     maxPage: number;
     deployments: DeploymentDto[];
     totalCount: number;
-    pageCursor: string | null;
 };
 
 export type ProjectResponseDto = {
@@ -66,7 +65,6 @@ export interface ExploreResponseDto {
     countProjects: number;
     maxPage: number;
     projects: PortalProjectCard[];
-    pageCursor: string | null;
 }
 
 export interface FavoritesResponseDto extends ExploreResponseDto {}

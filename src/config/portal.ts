@@ -8,7 +8,7 @@ import {
 } from "../types";
 
 export class Portal {
-    public static defaultSortType: SUPPORTED_SORT_TYPE = "weekly_popular";
+    public static defaultSortType: SUPPORTED_SORT_TYPE = "top_rated";
     public static sortTypes: SUPPORTED_SORT_TYPE[] = ["weekly_popular", "top_rated", "newest"];
 
     public static categories: PortalCategory[] = [-1, 0, 1, 2, 3, 4, 5, 6, 7];

@@ -74,17 +74,13 @@ export class DashboardApi extends Api {
     public static async listDeployments(
         chainId: number,
         address: Address,
-        page: number,
-        pageCursor?: string
+        page: number
     ): Promise<ListDeploymentResponseDto> {
         const query = new URLSearchParams();
         if (page) {
             if (isNaN(Number(page))) throw new Error("Invalid page query!");
 
             query.append("page", page.toString());
-        }
-        if (pageCursor) {
-            query.append("pageCursor", pageCursor.toString());
         }
 
         const { data } = await this.client.get(
@@ -317,8 +313,7 @@ export class PortalApi extends AuthSignature {
         chainId: number,
         page?: number,
         sort?: SUPPORTED_SORT_TYPE,
-        paymentMethods?: Address[],
-        pageCursor?: string
+        paymentMethods?: Address[]
     ): Promise<ExploreResponseDto> {
         const query = new URLSearchParams();
         if (page) {
@@ -337,9 +332,6 @@ export class PortalApi extends AuthSignature {
             });
 
             query.append("paymentMethods", paymentMethods.join(","));
-        }
-        if (pageCursor) {
-            query.append("pageCursor", pageCursor.toString());
         }
 
         const { data } = await this.client.get(
