@@ -32,7 +32,9 @@ import {
     StatisticsResponseDto,
     StatisticTimeGap,
     ProjectUsersResponseDto,
-    ProjectIncomesResponseDto
+    ProjectIncomesResponseDto,
+    UserSubscriptionsResponseDto,
+    UserSubscriptionResponseDto
 } from "../types";
 
 export class Api {
@@ -236,6 +238,32 @@ export class DashboardApi extends Api {
         const { data } = await this.client.get(
             `/v1/dashboard/accounting/${chainId}/${id}` +
                 (query.size > 0 ? `?${query.toString()}` : "")
+        );
+        return data;
+    }
+
+    public static async userSubscriptions(
+        address: Address,
+        page?: string
+    ): Promise<UserSubscriptionsResponseDto> {
+        const query = new URLSearchParams();
+        if (page) {
+            query.append("page", page.toString());
+        }
+
+        const { data } = await this.client.get(
+            `/v1/dashboard/user/subscriptions/${address}` + (query.size > 0 ? `?${query.toString()}` : "")
+        );
+        return data;
+    }
+
+    public static async userSubscription(
+        address: Address,
+        chainId: number,
+        accessTimeAddress: Address
+    ): Promise<UserSubscriptionResponseDto> {
+        const { data } = await this.client.get(
+            `/v1/dashboard/user/subscription/${address}/${chainId}/${accessTimeAddress}`
         );
         return data;
     }

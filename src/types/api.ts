@@ -145,3 +145,18 @@ export interface ProjectIncomesResponseDto {
     pageCursor: string | null;
     maxPage: number;
 }
+
+export interface SubscriptionDto {
+    chainId: number;
+    accessTimeAddress: Address;
+    endTime: number;
+    totalPurchasedTime: number;
+}
+
+export interface UserSubscriptionsResponseDto {
+    maxPage: number;
+    subscriptions: SubscriptionDto[];
+    totalCount: number;
+}
+
+export interface UserSubscriptionResponseDto extends Omit<SubscriptionDto, "chainId" | "accessTimeAddress"> {}
