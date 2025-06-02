@@ -244,7 +244,7 @@ export class DashboardApi extends Api {
 
     public static async userSubscriptions(
         address: Address,
-        page?: string
+        page?: number
     ): Promise<UserSubscriptionsResponseDto> {
         const query = new URLSearchParams();
         if (page) {
@@ -736,6 +736,39 @@ export class PortalApi extends AuthSignature {
                     "X-ACCESSTIME-AUTH-MESSAGE": this.authMessage,
                     "X-ACCESSTIME-AUTH-SIGNATURE": this.authSignature
                 }
+            }
+        );
+        return data;
+    }
+
+    public static async search(
+        name: string,
+        page?: number
+    ): Promise<ExploreResponseDto> {
+        const query = new URLSearchParams();
+        const isValid = /^[a-zA-Z0-9 ]+$/.test(name);
+        const correctLength = name.replace(/[^a-zA-Z0-9 ]/g, "").trim().length > 3;
+
+        if (!isValid || !correctLength) {
+            throw new Error("Invalid search name query!");
+        }
+        query.append("name", name.replace(/[^a-zA-Z0-9 ]/g, "").trim());
+        if (page) {
+            if (isNaN(Number(page))) throw new Error("Invalid page query!");
+
+            query.append("page", page.toString());
+        }
+
+        const { data } = await this.client.get(
+            `/v1/portal/search` + (query.size > 0 ? `?${query.toString()}` : ""),
+            {
+                headers:
+                    this.authMessage && this.authSignature
+                        ? {
+                              "X-ACCESSTIME-AUTH-MESSAGE": this.authMessage,
+                              "X-ACCESSTIME-AUTH-SIGNATURE": this.authSignature
+                          }
+                        : undefined
             }
         );
         return data;
